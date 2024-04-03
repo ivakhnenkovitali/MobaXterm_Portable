@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa -->
+<html class="js" lang="ru" style="--header-height: 129px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#008787">
+   
+    <title>Что такое NAT? Особенности в MOXA</title>
+    <meta name="description" content="Особенности настройки правил трансляции адресов на маршрутизаторах серии EDR.">
+   
+    <link rel="canonical" href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa">
+
+    <link rel="preconnect" href="https://cdn.shopify.com/">
+    <link rel="preconnect" href="https://monorail-edge.shopifysvc.com/">
+    
+    <link rel="dns-prefetch" href="https://ajax.googleapis.com/">    
+    <link rel="preload" as="style" href="./Что такое NAT_ Особенности в MOXA_files/theme.css">
+    <link rel="preload" as="script" href="./Что такое NAT_ Особенности в MOXA_files/theme.js.Без названия">
+    
+    <link rel="stylesheet" href="./Что такое NAT_ Особенности в MOXA_files/theme.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Что такое NAT_ Особенности в MOXA_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --default-text-font-size : 15px;
+    --base-text-font-size    : 16px;
+    --heading-font-family    : "Open Sans", sans-serif;
+    --heading-font-weight    : 700;
+    --heading-font-style     : normal;
+    --text-font-family       : "Open Sans", sans-serif;
+    --text-font-weight       : 400;
+    --text-font-style        : normal;
+    --text-font-bolder-weight: 700;
+    --text-link-decoration   : underline;
+
+    --text-color               : #202020;
+    --text-color-rgb           : 32, 32, 32;
+    --heading-color            : #008787;
+    --border-color             : #e1e3e4;
+    --border-color-rgb         : 225, 227, 228;
+    --form-border-color        : #d4d6d8;
+    --accent-color             : #008787;
+    --accent-color-rgb         : 0, 135, 135;
+    --link-color               : #008787;
+    --link-color-hover         : #003a3b;
+    --background               : #f4f4f4;
+    --secondary-background     : #ffffff;
+    --secondary-background-rgb : 255, 255, 255;
+    --accent-background        : rgba(0, 135, 135, 0.08);
+
+    --input-background: #ffffff;
+
+    --error-color       : #ff0000;
+    --error-background  : rgba(255, 0, 0, 0.07);
+    --success-color     : #00aa00;
+    --success-background: rgba(0, 170, 0, 0.11);
+
+    --primary-button-background      : #008787;
+    --primary-button-background-rgb  : 0, 135, 135;
+    --primary-button-text-color      : #ffffff;
+    --secondary-button-background    : #ffffff;
+    --secondary-button-background-rgb: 255, 255, 255;
+    --secondary-button-text-color    : #008787;
+
+    --header-background      : #ffffff;
+    --header-text-color      : #686868;
+    --header-light-text-color: #a3afef;
+    --header-border-color    : rgba(163, 175, 239, 0.3);
+    --header-accent-color    : #008787;
+
+    --footer-background-color:    #ffffff;
+    --footer-heading-text-color:  #717171;
+    --footer-body-text-color:     #677279;
+    --footer-body-text-color-rgb: 103, 114, 121;
+    --footer-accent-color:        #008787;
+    --footer-accent-color-rgb:    0, 135, 135;
+    --footer-border:              none;
+    
+    --flickity-arrow-color: #abb1b4;--product-on-sale-accent           : #ee0000;
+    --product-on-sale-accent-rgb       : 238, 0, 0;
+    --product-on-sale-color            : #ffffff;
+    --product-in-stock-color           : #008787;
+    --product-low-stock-color          : #ee0000;
+    --product-sold-out-color           : #8a9297;
+    --product-custom-label-1-background: #008787;
+    --product-custom-label-1-color     : #ffffff;
+    --product-custom-label-2-background: #008787;
+    --product-custom-label-2-color     : #ffffff;
+    --product-review-star-color        : #ffbd00;
+
+    --mobile-container-gutter : 20px;
+    --desktop-container-gutter: 40px;
+
+    /* Shopify related variables */
+    --payment-terms-background-color: #f4f4f4;
+  }
+</style>
+
+<script async="" src="./Что такое NAT_ Особенности в MOXA_files/tag.js.Без названия"></script><script type="text/javascript" async="" src="./Что такое NAT_ Особенности в MOXA_files/js"></script><script type="text/javascript" async="" src="./Что такое NAT_ Особенности в MOXA_files/trekkie.storefront.2eced10260225d6798d99c4a95501a3f587f6b15.min.js.Без названия"></script><script async="" src="./Что такое NAT_ Особенности в MOXA_files/gtm.js.Без названия"></script><script>
+  // IE11 does not have support for CSS variables, so we have to polyfill them
+  if (!(((window || {}).CSS || {}).supports && window.CSS.supports('(--a: 0)'))) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2';
+    script.onload = function() {
+      cssVars({});
+    };
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+</script>
+<link rel="shortcut icon" href="https://moxa.pro/cdn/shop/files/m_32x32.png?v=1642665428" type="image/png">
+    
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NVVS2NK');</script>
+<!-- End Google Tag Manager -->    
+    
+    <meta property="og:type" content="article">
+  <meta property="og:title" content="Что такое NAT? Особенности в MOXA"><meta property="og:image" content="http://moxa.pro/cdn/shop/articles/NAT_MOXA.jpg?v=1640784729">
+    <meta property="og:image:secure_url" content="https://moxa.pro/cdn/shop/articles/NAT_MOXA.jpg?v=1640784729">
+    <meta property="og:image:width" content="685">
+    <meta property="og:image:height" content="370"><meta property="og:description" content="Особенности настройки правил трансляции адресов на маршрутизаторах серии EDR."><meta property="og:url" content="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa">
+<meta property="og:site_name" content="MOXA.pro">
+    
+    <script>window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.start');</script><meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/61741564125/digital_wallets/dialog">
+<link rel="alternate" type="application/atom+xml" title="Feed" href="https://moxa.pro/blogs/articles.atom">
+<script async="async" src="./Что такое NAT_ Особенности в MOXA_files/preloads.js.Без названия"></script>
+<script async="async" src="./Что такое NAT_ Особенности в MOXA_files/preloads(1).js.Без названия" crossorigin="anonymous"></script>
+<script id="shopify-features" type="application/json">{"accessToken":"4442dd2a9dd163b295a507599b77b5d1","betas":["rich-media-storefront-analytics"],"domain":"moxa.pro","predictiveSearch":true,"shopId":61741564125,"smart_payment_buttons_url":"https:\/\/moxa.pro\/cdn\/shopifycloud\/payment-sheet\/assets\/latest\/spb.ru.js","dynamic_checkout_cart_url":"https:\/\/moxa.pro\/cdn\/shopifycloud\/payment-sheet\/assets\/latest\/dynamic-checkout-cart.ru.js","locale":"ru","flg4ff40b22":false}</script>
+<script>var Shopify = Shopify || {};
+Shopify.shop = "moxapro.myshopify.com";
+Shopify.locale = "ru";
+Shopify.currency = {"active":"USD","rate":"1.0"};
+Shopify.country = "US";
+Shopify.theme = {"name":"lables-onway","id":149446558032,"theme_store_id":null,"role":"main"};
+Shopify.theme.handle = "null";
+Shopify.theme.style = {"id":null,"handle":null};
+Shopify.cdnHost = "moxa.pro/cdn";
+Shopify.routes = Shopify.routes || {};
+Shopify.routes.root = "/";</script>
+<script type="module">!function(o){(o.Shopify=o.Shopify||{}).modules=!0}(window);</script>
+<script>!function(o){function n(){var o=[];function n(){o.push(Array.prototype.slice.apply(arguments))}return n.q=o,n}var t=o.Shopify=o.Shopify||{};t.loadFeatures=n(),t.autoloadFeatures=n()}(window);</script>
+<script id="__st">var __st={"a":61741564125,"offset":10800,"reqid":"be1ea168-3db4-40ec-bd95-5e80321afa3f-1712593985","pageurl":"moxa.pro\/blogs\/articles\/chto-takoe-nat-osobennosti-v-moxa","s":"articles-586927669469","u":"cb94986e8847","p":"article","rtyp":"article","rid":586927669469};</script>
+<script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
+<script>!function(o){o.addEventListener("DOMContentLoaded",function(){window.Shopify=window.Shopify||{},window.Shopify.recaptchaV3=window.Shopify.recaptchaV3||{siteKey:"6LeHG2ApAAAAAO4rPaDW-qVpPKPOBfjbCpzJB9ey"};var t=['form[action*="/contact"] input[name="form_type"][value="contact"]','form[action*="/comments"] input[name="form_type"][value="new_comment"]','form[action*="/account"] input[name="form_type"][value="customer_login"]','form[action*="/account"] input[name="form_type"][value="recover_customer_password"]','form[action*="/account"] input[name="form_type"][value="create_customer"]','form[action*="/contact"] input[name="form_type"][value="customer"]'].join(",");function n(e){e=e.target;null==e||null!=(e=function e(t,n){if(null==t.parentElement)return null;if("FORM"!=t.parentElement.tagName)return e(t.parentElement,n);for(var o=t.parentElement.action,r=0;r<n.length;r++)if(-1!==o.indexOf(n[r]))return t.parentElement;return null}(e,["/contact","/comments","/account"]))&&null!=e.querySelector(t)&&((e=o.createElement("script")).setAttribute("src","https://cdn.shopify.com/shopifycloud/storefront-recaptcha-v3/v0.6/index.js"),o.body.appendChild(e),o.removeEventListener("focus",n,!0),o.removeEventListener("change",n,!0),o.removeEventListener("click",n,!0))}o.addEventListener("click",n,!0),o.addEventListener("change",n,!0),o.addEventListener("focus",n,!0)})}(document);</script>
+<script integrity="sha256-n5Uet9jVOXPHGd4hH4B9Y6+BxkTluaaucmYaxAjUcvY=" data-source-attribution="shopify.loadfeatures" defer="defer" src="./Что такое NAT_ Особенности в MOXA_files/load_feature-9f951eb7d8d53973c719de211f807d63af81c644e5b9a6ae72661ac408d472f6.js.Без названия" crossorigin="anonymous"></script>
+<script integrity="sha256-HAs5a9TQVLlKuuHrahvWuke+s1UlxXohfHeoYv8G2D8=" data-source-attribution="shopify.dynamic-checkout" defer="defer" src="./Что такое NAT_ Особенности в MOXA_files/features-1c0b396bd4d054b94abae1eb6a1bd6ba47beb35525c57a217c77a862ff06d83f.js.Без названия" crossorigin="anonymous"></script>
+
+
+<script>window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.end');</script>
+
+    <script>
+      // This allows to expose several variables to the global scope, to be used in scripts
+      window.theme = {
+        pageType: "article",
+        cartCount: 0,
+        moneyFormat: "${{amount_with_space_separator}}",
+        moneyWithCurrencyFormat: "{{amount_with_space_separator}} USD",
+        currencyCodeEnabled: false,
+        showDiscount: true,
+        discountMode: "saving",
+        searchMode: "product,article",
+        searchUnavailableProducts: "last",
+        cartType: "drawer"
+      };
+
+      window.routes = {
+        rootUrl: "\/",
+        rootUrlWithoutSlash: '',
+        cartUrl: "\/cart",
+        cartAddUrl: "\/cart\/add",
+        cartChangeUrl: "\/cart\/change",
+        searchUrl: "\/search",
+        productRecommendationsUrl: "\/recommendations\/products"
+      };
+
+      window.languages = {
+        productRegularPrice: "Обычная цена",
+        productSalePrice: "Цена со скидкой",
+        collectionOnSaleLabel: "Экономия {{savings}}",
+        productFormUnavailable: "Недоступен",
+        productFormAddToCart: "Добавить к заявке",
+        productFormSoldOut: "Продан",
+        productAdded: "Товар добавлен к заявке",
+        productAddedShort: "Добавлен!",
+        shippingEstimatorNoResults: "No shipping could be found for your address.",
+        shippingEstimatorOneResult: "There is one shipping rate for your address:",
+        shippingEstimatorMultipleResults: "There are {{count}} shipping rates for your address:",
+        shippingEstimatorErrors: "Есть несколько ошибок:"
+      };
+
+      window.lazySizesConfig = {
+        loadHidden: false,
+        hFac: 0.8,
+        expFactor: 3,
+        customMedia: {
+          '--phone': '(max-width: 640px)',
+          '--tablet': '(min-width: 641px) and (max-width: 1023px)',
+          '--lap': '(min-width: 1024px)'
+        }
+      };
+
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    </script>
+
+    <script src="./Что такое NAT_ Особенности в MOXA_files/theme.js.Без названия" defer=""></script>
+    <script src="./Что такое NAT_ Особенности в MOXA_files/custom.js.Без названия" defer=""></script><script>
+        (function () {
+          window.onpageshow = function() {
+            // We force re-freshing the cart content onpageshow, as most browsers will serve a cache copy when hitting the
+            // back button, which cause staled data
+            document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {
+              bubbles: true,
+              detail: {scrollToTop: false}
+            }));
+          };
+        })();
+      </script><!--begin-boost-pfs-filter-css-->
+  <link rel="preload stylesheet" href="https://moxa.pro/cdn/shop/t/55/assets/boost-pfs-instant-search.css?v=144548008882049764041684516566" as="style"><link href="./Что такое NAT_ Особенности в MOXA_files/boost-pfs-custom.css" rel="stylesheet" type="text/css" media="all">
+<style data-id="boost-pfs-style">
+    .boost-pfs-filter-option-title-text {}
+
+   .boost-pfs-filter-tree-v .boost-pfs-filter-option-title-text:before {}
+    .boost-pfs-filter-tree-v .boost-pfs-filter-option.boost-pfs-filter-option-collapsed .boost-pfs-filter-option-title-text:before {}
+    .boost-pfs-filter-tree-h .boost-pfs-filter-option-title-heading:before {}
+
+    .boost-pfs-filter-refine-by .boost-pfs-filter-option-title h3 {}
+
+    .boost-pfs-filter-option-content .boost-pfs-filter-option-item-list .boost-pfs-filter-option-item button,
+    .boost-pfs-filter-option-content .boost-pfs-filter-option-item-list .boost-pfs-filter-option-item .boost-pfs-filter-button,
+    .boost-pfs-filter-option-range-amount input,
+    .boost-pfs-filter-tree-v .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item,
+    .boost-pfs-filter-refine-by-wrapper-v .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item,
+    .boost-pfs-filter-refine-by .boost-pfs-filter-option-title,
+    .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item>a,
+    .boost-pfs-filter-refine-by>span,
+    .boost-pfs-filter-clear,
+    .boost-pfs-filter-clear-all{}
+    .boost-pfs-filter-tree-h .boost-pfs-filter-pc .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear .refine-by-type,
+    .boost-pfs-filter-refine-by-wrapper-h .boost-pfs-filter-pc .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear .refine-by-type {}
+
+    .boost-pfs-filter-option-multi-level-collections .boost-pfs-filter-option-multi-level-list .boost-pfs-filter-option-item .boost-pfs-filter-button-arrow .boost-pfs-arrow:before,
+    .boost-pfs-filter-option-multi-level-tag .boost-pfs-filter-option-multi-level-list .boost-pfs-filter-option-item .boost-pfs-filter-button-arrow .boost-pfs-arrow:before {}
+
+    .boost-pfs-filter-refine-by-wrapper-v .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:after,
+    .boost-pfs-filter-refine-by-wrapper-v .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:before,
+    .boost-pfs-filter-tree-v .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:after,
+    .boost-pfs-filter-tree-v .boost-pfs-filter-refine-by .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:before,
+    .boost-pfs-filter-refine-by-wrapper-h .boost-pfs-filter-pc .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:after,
+    .boost-pfs-filter-refine-by-wrapper-h .boost-pfs-filter-pc .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:before,
+    .boost-pfs-filter-tree-h .boost-pfs-filter-pc .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:after,
+    .boost-pfs-filter-tree-h .boost-pfs-filter-pc .boost-pfs-filter-refine-by-items .refine-by-item .boost-pfs-filter-clear:before {}
+    .boost-pfs-filter-option-range-slider .noUi-value-horizontal {}
+
+    .boost-pfs-filter-tree-mobile-button button,
+    .boost-pfs-filter-top-sorting-mobile button {font-weight: 400 !important;font-family: Open Sans !important;background: rgba(0,135,135,1) !important;}
+    .boost-pfs-filter-top-sorting-mobile button>span:after {}
+  </style>
+<!--end-boost-pfs-filter-css-->
+   
+	<meta name="yandex-verification" content="4c3dbaeb6b85381b">
+	<meta name="google-site-verification" content="lLQtVwwVyC9DOExhauC9g1QNAc8Sofer46m2aZG3oZo">
+<link href="https://monorail-edge.shopifysvc.com/" rel="dns-prefetch">
+<script>(function(){if ("sendBeacon" in navigator && "performance" in window) {var session_token = document.cookie.match(/_shopify_s=([^;]*)/);function handle_abandonment_event(e) {var entries = performance.getEntries().filter(function(entry) {return /monorail-edge.shopifysvc.com/.test(entry.name);});if (!window.abandonment_tracked && entries.length === 0) {window.abandonment_tracked = true;var currentMs = Date.now();var navigation_start = performance.timing.navigationStart;var payload = {shop_id: 61741564125,url: window.location.href,navigation_start,duration: currentMs - navigation_start,session_token: session_token && session_token.length === 2 ? session_token[1] : "",page_type: "article"};window.navigator.sendBeacon("https://monorail-edge.shopifysvc.com/v1/produce", JSON.stringify({schema_id: "online_store_buyer_site_abandonment/1.1",payload: payload,metadata: {event_created_at_ms: currentMs,event_sent_at_ms: currentMs}}));}}window.addEventListener('pagehide', handle_abandonment_event);}}());</script>
+<script id="web-pixels-manager-setup">(function e(e,n,a,t,r){var o="function"==typeof BigInt&&-1!==BigInt.toString().indexOf("[native code]")?"modern":"legacy";window.Shopify=window.Shopify||{};var i=window.Shopify;i.analytics=i.analytics||{};var s=i.analytics;s.replayQueue=[],s.publish=function(e,n,a){return s.replayQueue.push([e,n,a]),!0};try{self.performance.mark("wpm:start")}catch(e){}var l=[a,"/wpm","/b",r,o.substring(0,1),".js"].join("");!function(e){var n=e.src,a=e.async,t=void 0===a||a,r=e.onload,o=e.onerror,i=document.createElement("script"),s=document.head,l=document.body;i.async=t,i.src=n,r&&i.addEventListener("load",r),o&&i.addEventListener("error",o),s?s.appendChild(i):l?l.appendChild(i):console.error("Did not find a head or body element to append the script")}({src:l,async:!0,onload:function(){var a=window.webPixelsManager.init(e);n(a);var t=window.Shopify.analytics;t.replayQueue.forEach((function(e){var n=e[0],t=e[1],r=e[2];a.publishCustomEvent(n,t,r)})),t.replayQueue=[],t.publish=a.publishCustomEvent,t.visitor=a.visitor},onerror:function(){var n=e.storefrontBaseUrl.replace(/\/$/,""),a="".concat(n,"/.well-known/shopify/monorail/unstable/produce_batch"),r=JSON.stringify({metadata:{event_sent_at_ms:(new Date).getTime()},events:[{schema_id:"web_pixels_manager_load/2.0",payload:{version:t||"latest",page_url:self.location.href,status:"failed",error_msg:"".concat(l," has failed to load")},metadata:{event_created_at_ms:(new Date).getTime()}}]});try{if(self.navigator.sendBeacon.bind(self.navigator)(a,r))return!0}catch(e){}var o=new XMLHttpRequest;try{return o.open("POST",a,!0),o.setRequestHeader("Content-Type","text/plain"),o.send(r),!0}catch(e){console&&console.warn&&console.warn("[Web Pixels Manager] Got an unhandled error while logging a load error.")}return!1}})})({shopId: 61741564125,storefrontBaseUrl: "https://moxa.pro",cdnBaseUrl: "https://moxa.pro/cdn",surface: "storefront-renderer",enabledBetaFlags: [],webPixelsConfigList: [{"id":"shopify-app-pixel","configuration":"{}","eventPayloadVersion":"v1","runtimeContext":"STRICT","scriptVersion":"0575","apiClientId":"shopify-pixel","type":"APP","purposes":["ANALYTICS"]},{"id":"shopify-custom-pixel","eventPayloadVersion":"v1","runtimeContext":"LAX","scriptVersion":"0575","apiClientId":"shopify-pixel","type":"CUSTOM","purposes":["ANALYTICS"]}],initData: {"cart":null,"checkout":null,"customer":null,"productVariants":[]},},function pageEvents(webPixelsManagerAPI) {webPixelsManagerAPI.publish("page_viewed");},"https://moxa.pro/cdn","0.0.469","7265dc79wdf6f2cd2p26523560m583183dc",);</script><script async="" src="./Что такое NAT_ Особенности в MOXA_files/b7265dc79wdf6f2cd2p26523560m583183dcm.js.Без названия"></script>  <script>window.ShopifyAnalytics = window.ShopifyAnalytics || {};
+window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
+window.ShopifyAnalytics.meta.currency = 'USD';
+var meta = {"page":{"pageType":"article","resourceType":"article","resourceId":586927669469}};
+for (var attr in meta) {
+  window.ShopifyAnalytics.meta[attr] = meta[attr];
+}</script>
+<script>window.ShopifyAnalytics.merchantGoogleAnalytics = function() {
+  
+};
+</script>
+<script class="analytics">(function () {
+    var customDocumentWrite = function(content) {
+      var jquery = null;
+
+      if (window.jQuery) {
+        jquery = window.jQuery;
+      } else if (window.Checkout && window.Checkout.$) {
+        jquery = window.Checkout.$;
+      }
+
+      if (jquery) {
+        jquery('body').append(content);
+      }
+    };
+
+    var hasLoggedConversion = function(token) {
+      if (token) {
+        return document.cookie.indexOf('loggedConversion=' + token) !== -1;
+      }
+      return false;
+    }
+
+    var setCookieIfConversion = function(token) {
+      if (token) {
+        var twoMonthsFromNow = new Date(Date.now());
+        twoMonthsFromNow.setMonth(twoMonthsFromNow.getMonth() + 2);
+
+        document.cookie = 'loggedConversion=' + token + '; expires=' + twoMonthsFromNow;
+      }
+    }
+
+    var trekkie = window.ShopifyAnalytics.lib = window.trekkie = window.trekkie || [];
+    if (trekkie.integrations) {
+      return;
+    }
+    trekkie.methods = [
+      'identify',
+      'page',
+      'ready',
+      'track',
+      'trackForm',
+      'trackLink'
+    ];
+    trekkie.factory = function(method) {
+      return function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift(method);
+        trekkie.push(args);
+        return trekkie;
+      };
+    };
+    for (var i = 0; i < trekkie.methods.length; i++) {
+      var key = trekkie.methods[i];
+      trekkie[key] = trekkie.factory(key);
+    }
+    trekkie.load = function(config) {
+      trekkie.config = config || {};
+      trekkie.config.initialDocumentCookie = document.cookie;
+      var first = document.getElementsByTagName('script')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.onerror = function(e) {
+        var scriptFallback = document.createElement('script');
+        scriptFallback.type = 'text/javascript';
+        scriptFallback.onerror = function(error) {
+                var Monorail = {
+      produce: function produce(monorailDomain, schemaId, payload) {
+        var currentMs = new Date().getTime();
+        var event = {
+          schema_id: schemaId,
+          payload: payload,
+          metadata: {
+            event_created_at_ms: currentMs,
+            event_sent_at_ms: currentMs
+          }
+        };
+        return Monorail.sendRequest("https://" + monorailDomain + "/v1/produce", JSON.stringify(event));
+      },
+      sendRequest: function sendRequest(endpointUrl, payload) {
+        // Try the sendBeacon API
+        if (window && window.navigator && typeof window.navigator.sendBeacon === 'function' && typeof window.Blob === 'function' && !Monorail.isIos12()) {
+          var blobData = new window.Blob([payload], {
+            type: 'text/plain'
+          });
+
+          if (window.navigator.sendBeacon(endpointUrl, blobData)) {
+            return true;
+          } // sendBeacon was not successful
+
+        } // XHR beacon
+
+        var xhr = new XMLHttpRequest();
+
+        try {
+          xhr.open('POST', endpointUrl);
+          xhr.setRequestHeader('Content-Type', 'text/plain');
+          xhr.send(payload);
+        } catch (e) {
+          console.log(e);
+        }
+
+        return false;
+      },
+      isIos12: function isIos12() {
+        return window.navigator.userAgent.lastIndexOf('iPhone; CPU iPhone OS 12_') !== -1 || window.navigator.userAgent.lastIndexOf('iPad; CPU OS 12_') !== -1;
+      }
+    };
+    Monorail.produce('monorail-edge.shopifysvc.com',
+      'trekkie_storefront_load_errors/1.1',
+      {shop_id: 61741564125,
+      theme_id: 149446558032,
+      app_name: "storefront",
+      context_url: window.location.href,
+      source_url: "//moxa.pro/cdn/s/trekkie.storefront.2eced10260225d6798d99c4a95501a3f587f6b15.min.js"});
+
+        };
+        scriptFallback.async = true;
+        scriptFallback.src = '//moxa.pro/cdn/s/trekkie.storefront.2eced10260225d6798d99c4a95501a3f587f6b15.min.js';
+        first.parentNode.insertBefore(scriptFallback, first);
+      };
+      script.async = true;
+      script.src = '//moxa.pro/cdn/s/trekkie.storefront.2eced10260225d6798d99c4a95501a3f587f6b15.min.js';
+      first.parentNode.insertBefore(script, first);
+    };
+    trekkie.load(
+      {"Trekkie":{"appName":"storefront","development":false,"defaultAttributes":{"shopId":61741564125,"isMerchantRequest":null,"themeId":149446558032,"themeCityHash":"14257861763032637786","contentLanguage":"ru","currency":"USD"},"isServerSideCookieWritingEnabled":true,"monorailRegion":"shop_domain","enabledBetaFlags":["bbcf04e6"]},"Session Attribution":{},"S2S":{"facebookCapiEnabled":false,"source":"trekkie-storefront-renderer"}}
+    );
+
+    var loaded = false;
+    trekkie.ready(function() {
+      if (loaded) return;
+      loaded = true;
+
+      window.ShopifyAnalytics.lib = window.trekkie;
+
+  
+      var originalDocumentWrite = document.write;
+      document.write = customDocumentWrite;
+      try { window.ShopifyAnalytics.merchantGoogleAnalytics.call(this); } catch(error) {};
+      document.write = originalDocumentWrite;
+
+      window.ShopifyAnalytics.lib.page(null,{"pageType":"article","resourceType":"article","resourceId":586927669469});
+
+      var match = window.location.pathname.match(/checkouts\/(.+)\/(thank_you|post_purchase)/)
+      var token = match? match[1]: undefined;
+      if (!hasLoggedConversion(token)) {
+        setCookieIfConversion(token);
+        
+      }
+    });
+
+
+        var eventsListenerScript = document.createElement('script');
+        eventsListenerScript.async = true;
+        eventsListenerScript.src = "//moxa.pro/cdn/shopifycloud/shopify/assets/shop_events_listener-61fa9e0a912c675e178777d2b27f6cbd482f8912a6b0aa31fa3515985a8cd626.js";
+        document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);
+
+})();</script><script async="" src="./Что такое NAT_ Особенности в MOXA_files/shop_events_listener-61fa9e0a912c675e178777d2b27f6cbd482f8912a6b0aa31fa3515985a8cd626.js.Без названия"></script>
+<script class="boomerang">
+(function () {
+  if (window.BOOMR && (window.BOOMR.version || window.BOOMR.snippetExecuted)) {
+    return;
+  }
+  window.BOOMR = window.BOOMR || {};
+  window.BOOMR.snippetStart = new Date().getTime();
+  window.BOOMR.snippetExecuted = true;
+  window.BOOMR.snippetVersion = 12;
+  window.BOOMR.application = "storefront-renderer";
+  window.BOOMR.themeName = "Warehouse";
+  window.BOOMR.themeVersion = "2.5.2";
+  window.BOOMR.shopId = 61741564125;
+  window.BOOMR.themeId = 149446558032;
+  window.BOOMR.renderRegion = "gcp-europe-west4";
+  window.BOOMR.url =
+    "https://moxa.pro/cdn/shopifycloud/boomerang/shopify-boomerang-1.0.0.min.js";
+  var where = document.currentScript || document.getElementsByTagName("script")[0];
+  var parentNode = where.parentNode;
+  var promoted = false;
+  var LOADER_TIMEOUT = 3000;
+  function promote() {
+    if (promoted) {
+      return;
+    }
+    var script = document.createElement("script");
+    script.id = "boomr-scr-as";
+    script.src = window.BOOMR.url;
+    script.async = true;
+    parentNode.appendChild(script);
+    promoted = true;
+  }
+  function iframeLoader(wasFallback) {
+    promoted = true;
+    var dom, bootstrap, iframe, iframeStyle;
+    var doc = document;
+    var win = window;
+    window.BOOMR.snippetMethod = wasFallback ? "if" : "i";
+    bootstrap = function(parent, scriptId) {
+      var script = doc.createElement("script");
+      script.id = scriptId || "boomr-if-as";
+      script.src = window.BOOMR.url;
+      BOOMR_lstart = new Date().getTime();
+      parent = parent || doc.body;
+      parent.appendChild(script);
+    };
+    if (!window.addEventListener && window.attachEvent && navigator.userAgent.match(/MSIE [67]./)) {
+      window.BOOMR.snippetMethod = "s";
+      bootstrap(parentNode, "boomr-async");
+      return;
+    }
+    iframe = document.createElement("IFRAME");
+    iframe.src = "about:blank";
+    iframe.title = "";
+    iframe.role = "presentation";
+    iframe.loading = "eager";
+    iframeStyle = (iframe.frameElement || iframe).style;
+    iframeStyle.width = 0;
+    iframeStyle.height = 0;
+    iframeStyle.border = 0;
+    iframeStyle.display = "none";
+    parentNode.appendChild(iframe);
+    try {
+      win = iframe.contentWindow;
+      doc = win.document.open();
+    } catch (e) {
+      dom = document.domain;
+      iframe.src = "javascript:var d=document.open();d.domain='" + dom + "';void(0);";
+      win = iframe.contentWindow;
+      doc = win.document.open();
+    }
+    if (dom) {
+      doc._boomrl = function() {
+        this.domain = dom;
+        bootstrap();
+      };
+      doc.write("<body onload='document._boomrl();'>");
+    } else {
+      win._boomrl = function() {
+        bootstrap();
+      };
+      if (win.addEventListener) {
+        win.addEventListener("load", win._boomrl, false);
+      } else if (win.attachEvent) {
+        win.attachEvent("onload", win._boomrl);
+      }
+    }
+    doc.close();
+  }
+  var link = document.createElement("link");
+  if (link.relList &&
+    typeof link.relList.supports === "function" &&
+    link.relList.supports("preload") &&
+    ("as" in link)) {
+    window.BOOMR.snippetMethod = "p";
+    link.href = window.BOOMR.url;
+    link.rel = "preload";
+    link.as = "script";
+    link.addEventListener("load", promote);
+    link.addEventListener("error", function() {
+      iframeLoader(true);
+    });
+    setTimeout(function() {
+      if (!promoted) {
+        iframeLoader(true);
+      }
+    }, LOADER_TIMEOUT);
+    BOOMR_lstart = new Date().getTime();
+    parentNode.appendChild(link);
+  } else {
+    iframeLoader(false);
+  }
+  function boomerangSaveLoadTime(e) {
+    window.BOOMR_onload = (e && e.timeStamp) || new Date().getTime();
+  }
+  if (window.addEventListener) {
+    window.addEventListener("load", boomerangSaveLoadTime, false);
+  } else if (window.attachEvent) {
+    window.attachEvent("onload", boomerangSaveLoadTime);
+  }
+  if (document.addEventListener) {
+    document.addEventListener("onBoomerangLoaded", function(e) {
+      e.detail.BOOMR.init({
+        ResourceTiming: {
+          enabled: true,
+          trackedResourceTypes: ["script", "img", "css"]
+        },
+      });
+      e.detail.BOOMR.t_end = new Date().getTime();
+    });
+  } else if (document.attachEvent) {
+    document.attachEvent("onpropertychange", function(e) {
+      if (!e) e=event;
+      if (e.propertyName === "onBoomerangLoaded") {
+        e.detail.BOOMR.init({
+          ResourceTiming: {
+            enabled: true,
+            trackedResourceTypes: ["script", "img", "css"]
+          },
+        });
+        e.detail.BOOMR.t_end = new Date().getTime();
+      }
+    });
+  }
+})();</script><link href="./Что такое NAT_ Особенности в MOXA_files/shopify-boomerang-1.0.0.min.js.Без названия" rel="preload" as="script">
+<script id="supportScript" src="./Что такое NAT_ Особенности в MOXA_files/support.js.Без названия"></script><script id="boomr-scr-as" src="./Что такое NAT_ Особенности в MOXA_files/shopify-boomerang-1.0.0.min.js.Без названия" async=""></script><style></style><link rel="dns-prefetch preconnect" href="https://moxa.pro/blogs/articles/h" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/runtime.latest.ru.fc380a32885b75a55c71.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/960.latest.ru.b4fd7fd6ea8aa952eb60.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/361.latest.ru.a61722cb92409da659d2.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/706.latest.ru.f99250f5596c87ad7bf5.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/app.latest.ru.a98529eeab4b3c1035d4.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/751.latest.ru.c93e6a6b8624ef406214.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/836.latest.ru.c052446010af61bd7aa9.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/78.latest.ru.93037259d77deea16aa3.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/100.latest.ru.313e243f59663328b7ae.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="script" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/OnePage.latest.ru.6bd9a405d2e88c950d4d.js" crossorigin=""><link rel="prefetch" fetchpriority="low" as="style" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/960.latest.ru.5ab7c1df0c745fc2f90e.css" crossorigin=""><link rel="prefetch" fetchpriority="low" as="style" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/app.latest.ru.5e52d9ec000e6dcd2cd6.css" crossorigin=""><link rel="prefetch" fetchpriority="low" as="style" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/836.latest.ru.6e0fd6af0121f716b925.css" crossorigin=""><link rel="prefetch" fetchpriority="low" as="style" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/268.latest.ru.5b7df247927464b44fee.css" crossorigin=""><script type="text/javascript" async="" src="https://vk.com/js/api/openapi.js?168"></script></head>
+
+<body class="warehouse--v1 features--animate-zoom template-article TalkMe-initialized supportDesktop supportOnline" data-instant-intensity="viewport"><div class="cc-revoke" style="display: none;"></div><div class="cc-grower" style="max-height: 51px;"><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-banner cc-type-opt-in cc-theme-edgeless cc-static cc-top cc-color-override--1258995784 " style=""><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">Оставаясь на сайте, вы соглашаетесь с Положением об обработке персональных данных. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://moxa.pro/pages/privacy-policy" rel="noopener noreferrer nofollow" target="_blank">Подробнее</a></span><div class="cc-compliance cc-highlight"><a aria-label="deny cookies" role="button" tabindex="0" class="cc-btn cc-deny"></a><a aria-label="allow cookies" role="button" tabindex="0" class="cc-btn cc-allow">Принять</a></div><!--googleon: all--></div></div>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVVS2NK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><svg class="visually-hidden">
+      <lineargradient id="rating-star-gradient-half">
+        <stop offset="50%" stop-color="var(--product-review-star-color)"></stop>
+        <stop offset="50%" stop-color="rgba(var(--text-color-rgb), .4)" stop-opacity="0.4"></stop>
+      </lineargradient>
+    </svg>
+
+    <a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#main" class="visually-hidden skip-to-content" rel="nofollow">Перейти к контенту</a>
+    <span class="loading-bar" style="transform: scaleX(0);"></span>
+
+    <div id="shopify-section-announcement-bar" class="shopify-section"></div>
+<div id="shopify-section-popups" class="shopify-section"><div data-section-id="popups" data-section-type="popups"></div>
+
+</div>
+<div id="shopify-section-header" class="shopify-section shopify-section__header"><section data-section-id="header" data-section-type="header" data-section-settings="{
+  &quot;navigationLayout&quot;: &quot;inline&quot;,
+  &quot;desktopOpenTrigger&quot;: &quot;hover&quot;,
+  &quot;useStickyHeader&quot;: false
+}">
+  <header class="header header--inline " role="banner">
+    <div class="container">
+      <div class="header__inner"><nav class="header__mobile-nav hidden-lap-and-up">
+            <button class="header__mobile-nav-toggle icon-state touch-area" data-action="toggle-menu" aria-expanded="false" aria-haspopup="true" aria-controls="mobile-menu" aria-label="Открыть меню">
+              <span class="icon-state__primary"><svg focusable="false" class="icon icon--hamburger-mobile " viewBox="0 0 20 16" role="presentation">
+      <path d="M0 14h20v2H0v-2zM0 0h20v2H0V0zm0 7h20v2H0V7z" fill="currentColor" fill-rule="evenodd"></path>
+    </svg></span>
+              <span class="icon-state__secondary"><svg focusable="false" class="icon icon--close " viewBox="0 0 19 19" role="presentation">
+      <path d="M9.1923882 8.39339828l7.7781745-7.7781746 1.4142136 1.41421357-7.7781746 7.77817459 7.7781746 7.77817456L16.9705627 19l-7.7781745-7.7781746L1.41421356 19 0 17.5857864l7.7781746-7.77817456L0 2.02943725 1.41421356.61522369 9.1923882 8.39339828z" fill="currentColor" fill-rule="evenodd"></path>
+    </svg></span>
+            </button><div id="mobile-menu" class="mobile-menu" aria-hidden="true"><svg focusable="false" class="icon icon--nav-triangle-borderless " viewBox="0 0 20 9" role="presentation">
+      <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+    </svg><div class="mobile-menu__inner">
+    <div class="mobile-menu__panel">
+      <div class="mobile-menu__section">
+        <ul class="mobile-menu__nav" data-type="menu" role="list"><li class="mobile-menu__nav-item"><button class="mobile-menu__nav-link" data-type="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-panel-0" data-action="open-panel">Каталог<svg focusable="false" class="icon icon--arrow-right " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M2 2l4 4-4 4" fill="none" stroke-linecap="square"></path>
+    </svg></button></li><li class="mobile-menu__nav-item"><button class="mobile-menu__nav-link" data-type="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-panel-1" data-action="open-panel">Поддержка<svg focusable="false" class="icon icon--arrow-right " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M2 2l4 4-4 4" fill="none" stroke-linecap="square"></path>
+    </svg></button></li><li class="mobile-menu__nav-item"><a href="https://moxa.pro/blogs/news" class="mobile-menu__nav-link" data-type="menuitem">Новости</a></li><li class="mobile-menu__nav-item"><a href="https://moxa.pro/blogs/articles" class="mobile-menu__nav-link" data-type="menuitem">Статьи и обзоры</a></li><li class="mobile-menu__nav-item"><a href="https://moxa.pro/blogs/solutions" class="mobile-menu__nav-link" data-type="menuitem">Решения</a></li><li class="mobile-menu__nav-item"><a href="https://moxa.pro/pages/about" class="mobile-menu__nav-link" data-type="menuitem">О компании</a></li><li class="mobile-menu__nav-item"><a href="https://moxa.pro/pages/where-to-buy" class="mobile-menu__nav-link" data-type="menuitem">Где купить</a></li></ul>
+      </div><div class="mobile-menu__section mobile-menu__section--loose">
+          <p class="mobile-menu__section-title heading h5">Нужна помощь?</p><div class="mobile-menu__help-wrapper"><svg focusable="false" class="icon icon--bi-phone " viewBox="0 0 24 24" role="presentation">
+      <g stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <path d="M17 15l-3 3-8-8 3-3-5-5-3 3c0 9.941 8.059 18 18 18l3-3-5-5z" stroke="#008787"></path>
+        <path d="M14 1c4.971 0 9 4.029 9 9m-9-5c2.761 0 5 2.239 5 5" stroke="#008787"></path>
+      </g>
+    </svg><span>+7 (495) 419-12-01</span>
+            </div><div class="mobile-menu__help-wrapper"><svg focusable="false" class="icon icon--bi-email " viewBox="0 0 22 22" role="presentation">
+      <g fill="none" fill-rule="evenodd">
+        <path stroke="#008787" d="M.916667 10.08333367l3.66666667-2.65833334v4.65849997zm20.1666667 0L17.416667 7.42500033v4.65849997z"></path>
+        <path stroke="#008787" stroke-width="2" d="M4.58333367 7.42500033L.916667 10.08333367V21.0833337h20.1666667V10.08333367L17.416667 7.42500033"></path>
+        <path stroke="#008787" stroke-width="2" d="M4.58333367 12.1000003V.916667H17.416667v11.1833333m-16.5-2.01666663L21.0833337 21.0833337m0-11.00000003L11.0000003 15.5833337"></path>
+        <path d="M8.25000033 5.50000033h5.49999997M8.25000033 9.166667h5.49999997" stroke="#008787" stroke-width="2" stroke-linecap="square"></path>
+      </g>
+    </svg><a href="mailto:russia@moxa.pro" target="_blank" rel="noopener" aria-describedby="a11y-new-window-message">russia@moxa.pro</a>
+            </div></div></div><div id="mobile-panel-0" class="mobile-menu__panel is-nested">
+          <div class="mobile-menu__section is-sticky">
+            <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+          </div>
+
+          <div class="mobile-menu__section"><div class="mobile-menu__nav-list"><div class="mobile-menu__nav-list-item"><button class="mobile-menu__nav-list-toggle text--strong" aria-controls="mobile-list-0" aria-expanded="false" data-action="toggle-collapsible" data-close-siblings="false">Промышленный Ethernet<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg>
+                      </button>
+
+                      <div id="mobile-list-0" class="mobile-menu__nav-collapsible">
+                        <div class="mobile-menu__nav-collapsible-content">
+                          <ul class="mobile-menu__nav" data-type="menu" role="list"><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/switches" class="mobile-menu__nav-link" data-type="menuitem">Коммутаторы Ethernet</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/secure-routers" class="mobile-menu__nav-link" data-type="menuitem">Межсетевые экраны</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/cellular" class="mobile-menu__nav-link" data-type="menuitem">Сотовая связь</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/wi-fi" class="mobile-menu__nav-link" data-type="menuitem">Промышленный Wi-Fi</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/mediaconverters-ethernet" class="mobile-menu__nav-link" data-type="menuitem">Ethernet в оптоволокно</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/ethernet-extenders" class="mobile-menu__nav-link" data-type="menuitem">Удлинители Ethernet по DSL</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/sfp-modules" class="mobile-menu__nav-link" data-type="menuitem">Промышленные SFP-модули</a>
+                              </li></ul>
+                        </div>
+                      </div></div><div class="mobile-menu__nav-list-item"><button class="mobile-menu__nav-list-toggle text--strong" aria-controls="mobile-list-1" aria-expanded="false" data-action="toggle-collapsible" data-close-siblings="false">Полевые шины и устройства<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg>
+                      </button>
+
+                      <div id="mobile-list-1" class="mobile-menu__nav-collapsible">
+                        <div class="mobile-menu__nav-collapsible-content">
+                          <ul class="mobile-menu__nav" data-type="menu" role="list"><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/nport" class="mobile-menu__nav-link" data-type="menuitem">NPort: COM в Ethernet</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/gateways" class="mobile-menu__nav-link" data-type="menuitem">Шлюзы протоколов</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/serial-converters" class="mobile-menu__nav-link" data-type="menuitem">Преобразователи интерфейсов</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/fieldbus-to-fiber" class="mobile-menu__nav-link" data-type="menuitem">Медиаконвертеры</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/multiport-serial-boards" class="mobile-menu__nav-link" data-type="menuitem">Платы COM-портов</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/controllers" class="mobile-menu__nav-link" data-type="menuitem">Контроллеры и модули</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/video" class="mobile-menu__nav-link" data-type="menuitem">Видеонаблюдение</a>
+                              </li></ul>
+                        </div>
+                      </div></div><div class="mobile-menu__nav-list-item"><button class="mobile-menu__nav-list-toggle text--strong" aria-controls="mobile-list-2" aria-expanded="false" data-action="toggle-collapsible" data-close-siblings="false">Компьютеры и мониторы<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg>
+                      </button>
+
+                      <div id="mobile-list-2" class="mobile-menu__nav-collapsible">
+                        <div class="mobile-menu__nav-collapsible-content">
+                          <ul class="mobile-menu__nav" data-type="menu" role="list"><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/industrial-computing" class="mobile-menu__nav-link" data-type="menuitem">Промышленные компьютеры</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/panel-computers" class="mobile-menu__nav-link" data-type="menuitem">Панельные компьютеры</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/collections/displays" class="mobile-menu__nav-link" data-type="menuitem">Мониторы</a>
+                              </li></ul>
+                        </div>
+                      </div></div></div>
+
+                  <div class="mobile-menu__promo-item">
+                    <a href="https://moxa.pro/pages/eds-4000" class="mobile-menu__promo">
+                      <div class="mobile-menu__image-wrapper">
+                        <div class="aspect-ratio" style="padding-bottom: 53.27272727272727%">
+                          <img class="lazyload image--fade-in" data-src="//moxa.pro/cdn/shop/files/EDS-4000-Family_550x.png?v=1647435052" alt="">
+                        </div>
+                      </div>
+
+                      <span class="mobile-menu__image-heading heading">Новая линейка защищённых коммутаторов EDS-4000/G4000</span>
+                      <p class="mobile-menu__image-text"></p>
+                    </a>
+                  </div></div>
+        </div><div id="mobile-panel-1" class="mobile-menu__panel is-nested">
+          <div class="mobile-menu__section is-sticky">
+            <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+          </div>
+
+          <div class="mobile-menu__section"><div class="mobile-menu__nav-list"><div class="mobile-menu__nav-list-item"><button class="mobile-menu__nav-list-toggle text--strong" aria-controls="mobile-list-3" aria-expanded="false" data-action="toggle-collapsible" data-close-siblings="false">Поддержка и сервис<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg>
+                      </button>
+
+                      <div id="mobile-list-3" class="mobile-menu__nav-collapsible">
+                        <div class="mobile-menu__nav-collapsible-content">
+                          <ul class="mobile-menu__nav" data-type="menu" role="list"><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/pages/tech-support" class="mobile-menu__nav-link" data-type="menuitem">Техническая поддержка</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/pages/product-repair-service" class="mobile-menu__nav-link" data-type="menuitem">Сервисное обслуживание</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/pages/test-drive" class="mobile-menu__nav-link" data-type="menuitem">Программа Тест-драйв</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/pages/mca" class="mobile-menu__nav-link" data-type="menuitem">Технический тренинг MCA</a>
+                              </li></ul>
+                        </div>
+                      </div></div><div class="mobile-menu__nav-list-item"><button class="mobile-menu__nav-list-toggle text--strong" aria-controls="mobile-list-4" aria-expanded="false" data-action="toggle-collapsible" data-close-siblings="false">Библиотека<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg>
+                      </button>
+
+                      <div id="mobile-list-4" class="mobile-menu__nav-collapsible">
+                        <div class="mobile-menu__nav-collapsible-content">
+                          <ul class="mobile-menu__nav" data-type="menu" role="list"><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/blogs/faq" class="mobile-menu__nav-link" data-type="menuitem">База знаний / F.A.Q.</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/blogs/training" class="mobile-menu__nav-link" data-type="menuitem">Обучающие статьи</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/pages/literature-library" class="mobile-menu__nav-link" data-type="menuitem">Каталоги и брошюры</a>
+                              </li><li class="mobile-menu__nav-item">
+                                <a href="https://moxa.pro/blogs/technologies" class="mobile-menu__nav-link" data-type="menuitem">Технологии</a>
+                              </li></ul>
+                        </div>
+                      </div></div></div><div class="scroller">
+                    <div class="scroller__inner">
+                      <div class="mobile-menu__promo-list">
+
+                  <div class="mobile-menu__promo-item">
+                    <a href="https://moxa.pro/pages/video" class="mobile-menu__promo">
+                      <div class="mobile-menu__image-wrapper">
+                        <div class="aspect-ratio" style="padding-bottom: 69.63636363636363%">
+                          <img class="lazyload image--fade-in" data-src="//moxa.pro/cdn/shop/files/study_image_new_550x.png?v=1642759140" alt="">
+                        </div>
+                      </div>
+
+                      <span class="mobile-menu__image-heading heading">Обучающие видеоролики</span>
+                      <p class="mobile-menu__image-text"></p>
+                    </a>
+                  </div>
+
+                  <div class="mobile-menu__promo-item">
+                    <a href="https://moxa.pro/pages/mca" class="mobile-menu__promo">
+                      <div class="mobile-menu__image-wrapper">
+                        <div class="aspect-ratio" style="padding-bottom: 69.57142857142857%">
+                          <img class="lazyload image--fade-in" data-src="//moxa.pro/cdn/shop/files/mca_cover_b28f0b71-5ac1-4df3-a60c-1376a47e9dfb_550x.png?v=1642058265" alt="">
+                        </div>
+                      </div>
+
+                      <span class="mobile-menu__image-heading heading">Технический тренинг</span>
+                      <p class="mobile-menu__image-text"></p>
+                    </a>
+                  </div></div>
+                    </div>
+                  </div></div>
+        </div><div id="mobile-panel-0-0" class="mobile-menu__panel is-nested">
+                <div class="mobile-menu__section is-sticky">
+                  <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+                </div>
+
+                <div class="mobile-menu__section">
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    <li class="mobile-menu__nav-item">
+                      <a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#" class="mobile-menu__nav-link text--strong">Промышленный Ethernet</a>
+                    </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/switches" class="mobile-menu__nav-link" data-type="menuitem">Коммутаторы Ethernet</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/secure-routers" class="mobile-menu__nav-link" data-type="menuitem">Межсетевые экраны</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/cellular" class="mobile-menu__nav-link" data-type="menuitem">Сотовая связь</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/wi-fi" class="mobile-menu__nav-link" data-type="menuitem">Промышленный Wi-Fi</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/mediaconverters-ethernet" class="mobile-menu__nav-link" data-type="menuitem">Ethernet в оптоволокно</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/ethernet-extenders" class="mobile-menu__nav-link" data-type="menuitem">Удлинители Ethernet по DSL</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/sfp-modules" class="mobile-menu__nav-link" data-type="menuitem">Промышленные SFP-модули</a>
+                      </li></ul>
+                </div>
+              </div><div id="mobile-panel-0-1" class="mobile-menu__panel is-nested">
+                <div class="mobile-menu__section is-sticky">
+                  <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+                </div>
+
+                <div class="mobile-menu__section">
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    <li class="mobile-menu__nav-item">
+                      <a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#" class="mobile-menu__nav-link text--strong">Полевые шины и устройства</a>
+                    </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/nport" class="mobile-menu__nav-link" data-type="menuitem">NPort: COM в Ethernet</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/gateways" class="mobile-menu__nav-link" data-type="menuitem">Шлюзы протоколов</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/serial-converters" class="mobile-menu__nav-link" data-type="menuitem">Преобразователи интерфейсов</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/fieldbus-to-fiber" class="mobile-menu__nav-link" data-type="menuitem">Медиаконвертеры</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/multiport-serial-boards" class="mobile-menu__nav-link" data-type="menuitem">Платы COM-портов</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/controllers" class="mobile-menu__nav-link" data-type="menuitem">Контроллеры и модули</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/video" class="mobile-menu__nav-link" data-type="menuitem">Видеонаблюдение</a>
+                      </li></ul>
+                </div>
+              </div><div id="mobile-panel-0-2" class="mobile-menu__panel is-nested">
+                <div class="mobile-menu__section is-sticky">
+                  <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+                </div>
+
+                <div class="mobile-menu__section">
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    <li class="mobile-menu__nav-item">
+                      <a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#" class="mobile-menu__nav-link text--strong">Компьютеры и мониторы</a>
+                    </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/industrial-computing" class="mobile-menu__nav-link" data-type="menuitem">Промышленные компьютеры</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/panel-computers" class="mobile-menu__nav-link" data-type="menuitem">Панельные компьютеры</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/collections/displays" class="mobile-menu__nav-link" data-type="menuitem">Мониторы</a>
+                      </li></ul>
+                </div>
+              </div><div id="mobile-panel-1-0" class="mobile-menu__panel is-nested">
+                <div class="mobile-menu__section is-sticky">
+                  <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+                </div>
+
+                <div class="mobile-menu__section">
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    <li class="mobile-menu__nav-item">
+                      <a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#" class="mobile-menu__nav-link text--strong">Поддержка и сервис</a>
+                    </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/pages/tech-support" class="mobile-menu__nav-link" data-type="menuitem">Техническая поддержка</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/pages/product-repair-service" class="mobile-menu__nav-link" data-type="menuitem">Сервисное обслуживание</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/pages/test-drive" class="mobile-menu__nav-link" data-type="menuitem">Программа Тест-драйв</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/pages/mca" class="mobile-menu__nav-link" data-type="menuitem">Технический тренинг MCA</a>
+                      </li></ul>
+                </div>
+              </div><div id="mobile-panel-1-1" class="mobile-menu__panel is-nested">
+                <div class="mobile-menu__section is-sticky">
+                  <button class="mobile-menu__back-button" data-action="close-panel"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg> Назад</button>
+                </div>
+
+                <div class="mobile-menu__section">
+                  <ul class="mobile-menu__nav" data-type="menu" role="list">
+                    <li class="mobile-menu__nav-item">
+                      <a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#" class="mobile-menu__nav-link text--strong">Библиотека</a>
+                    </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/blogs/faq" class="mobile-menu__nav-link" data-type="menuitem">База знаний / F.A.Q.</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/blogs/training" class="mobile-menu__nav-link" data-type="menuitem">Обучающие статьи</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/pages/literature-library" class="mobile-menu__nav-link" data-type="menuitem">Каталоги и брошюры</a>
+                      </li><li class="mobile-menu__nav-item">
+                        <a href="https://moxa.pro/blogs/technologies" class="mobile-menu__nav-link" data-type="menuitem">Технологии</a>
+                      </li></ul>
+                </div>
+              </div></div>
+</div></nav><div class="header__logo"><a href="https://moxa.pro/" class="header__logo-link"><span class="visually-hidden">Сайт официального дистрибьютора MOXA в России и СНГ</span>
+              <div class="bg-header"></div></a></div><div class="header__search-bar-wrapper ">
+          <form action="https://moxa.pro/search" method="get" role="search" class="search-bar"><div class="search-bar__top-wrapper">
+              <div class="search-bar__top">
+                <input type="hidden" name="type" value="product">
+                <input type="hidden" name="options[prefix]" value="last">
+                <input type="hidden" name="options[unavailable_products]" value="last">
+
+                <div class="search-bar__input-wrapper">
+                  <input class="search-bar__input boost-pfs-search-box" type="text" name="q" autocomplete="off" autocorrect="off" aria-label="When autocomplete results are available use up and down arrows to review and enter to select" placeholder="Поиск" id="boost-pfs-search-box-0" data-search-box="boost-pfs-search-box-0" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-owns="boost-pfs-search-suggestion-0" data-already-init="true">
+                  <button type="button" class="search-bar__input-clear hidden-lap-and-up" data-action="clear-input">
+                    <span class="visually-hidden">Очистить</span>
+                    <svg focusable="false" class="icon icon--close " viewBox="0 0 19 19" role="presentation">
+      <path d="M9.1923882 8.39339828l7.7781745-7.7781746 1.4142136 1.41421357-7.7781746 7.77817459 7.7781746 7.77817456L16.9705627 19l-7.7781745-7.7781746L1.41421356 19 0 17.5857864l7.7781746-7.77817456L0 2.02943725 1.41421356.61522369 9.1923882 8.39339828z" fill="currentColor" fill-rule="evenodd"></path>
+    </svg>
+                  </button>
+                </div><div class="search-bar__filter">
+                    <label for="search-product-type" class="search-bar__filter-label">
+                      <span class="search-bar__filter-active">Все категории</span><svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg></label>
+
+                    <select id="search-product-type">
+                      <option value="" selected="selected">Все категории</option><option value="ACCESSORY">ACCESSORY</option><option value="ANTENNAS">ANTENNAS</option><option value="BOARDS">BOARDS</option><option value="CABLE">CABLE</option><option value="CONTROLLER">CONTROLLER</option><option value="CONV_GW">CONV_GW</option><option value="CPUCARD">CPUCARD</option><option value="DISPLAY">DISPLAY</option><option value="EMBEDDED">EMBEDDED</option><option value="ENC_DEC">ENC_DEC</option><option value="GATEWAY">GATEWAY</option><option value="IP_CAMERAS">IP_CAMERAS</option><option value="IPC">IPC</option><option value="OTHERS">OTHERS</option><option value="PANELPC">PANELPC</option><option value="PSU">PSU</option><option value="REMOTEDAQ">REMOTEDAQ</option><option value="SERIALBRD">SERIALBRD</option><option value="SOFTWARE">SOFTWARE</option><option value="SWITCHES">SWITCHES</option><option value="WIRELESS">WIRELESS</option></select>
+                  </div><button type="submit" class="search-bar__submit" aria-label="Поиск"><svg focusable="false" class="icon icon--search " viewBox="0 0 21 21" role="presentation">
+      <g stroke-width="2" stroke="currentColor" fill="none" fill-rule="evenodd">
+        <path d="M19 19l-5-5" stroke-linecap="square"></path>
+        <circle cx="8.5" cy="8.5" r="7.5"></circle>
+      </g>
+    </svg><svg focusable="false" class="icon icon--search-loader " viewBox="0 0 64 64" role="presentation">
+      <path opacity=".4" d="M23.8589104 1.05290547C40.92335108-3.43614731 58.45816642 6.79494359 62.94709453 23.8589104c4.48905278 17.06444068-5.74156424 34.59913135-22.80600493 39.08818413S5.54195825 57.2055303 1.05290547 40.1410896C-3.43602265 23.0771228 6.7944697 5.54195825 23.8589104 1.05290547zM38.6146353 57.1445143c13.8647142-3.64731754 22.17719655-17.89443541 18.529879-31.75914961-3.64743965-13.86517841-17.8944354-22.17719655-31.7591496-18.529879S3.20804604 24.7494569 6.8554857 38.6146353c3.64731753 13.8647142 17.8944354 22.17719655 31.7591496 18.529879z"></path>
+      <path d="M1.05290547 40.1410896l5.80258022-1.5264543c3.64731754 13.8647142 17.89443541 22.17719655 31.75914961 18.529879l1.5264543 5.80258023C23.07664892 67.43614731 5.54195825 57.2055303 1.05290547 40.1410896z"></path>
+    </svg></button>
+              </div>
+
+              <button type="button" class="search-bar__close-button hidden-tablet-and-up" data-action="unfix-search">
+                <span class="search-bar__close-text">Закрыть</span>
+              </button>
+            </div>
+
+            <div class="search-bar__inner">
+              <div class="search-bar__results" aria-hidden="true">
+                <div class="skeleton-container"><div class="search-bar__result-item search-bar__result-item--skeleton">
+                      <div class="search-bar__image-container">
+                        <div class="aspect-ratio aspect-ratio--square">
+                          <div class="skeleton-image"></div>
+                        </div>
+                      </div>
+
+                      <div class="search-bar__item-info">
+                        <div class="skeleton-paragraph">
+                          <div class="skeleton-text"></div>
+                          <div class="skeleton-text"></div>
+                        </div>
+                      </div>
+                    </div><div class="search-bar__result-item search-bar__result-item--skeleton">
+                      <div class="search-bar__image-container">
+                        <div class="aspect-ratio aspect-ratio--square">
+                          <div class="skeleton-image"></div>
+                        </div>
+                      </div>
+
+                      <div class="search-bar__item-info">
+                        <div class="skeleton-paragraph">
+                          <div class="skeleton-text"></div>
+                          <div class="skeleton-text"></div>
+                        </div>
+                      </div>
+                    </div><div class="search-bar__result-item search-bar__result-item--skeleton">
+                      <div class="search-bar__image-container">
+                        <div class="aspect-ratio aspect-ratio--square">
+                          <div class="skeleton-image"></div>
+                        </div>
+                      </div>
+
+                      <div class="search-bar__item-info">
+                        <div class="skeleton-paragraph">
+                          <div class="skeleton-text"></div>
+                          <div class="skeleton-text"></div>
+                        </div>
+                      </div>
+                    </div></div>
+
+                <div class="search-bar__results-inner"></div>
+              </div></div>
+          </form>
+        </div><div class="header__action-list"><div class="header__action-item hidden-tablet-and-up">
+              <a class="header__action-item-link" href="https://moxa.pro/search" rel="nofollow" data-action="toggle-search" aria-expanded="false" aria-label="Открыть поиск"><svg focusable="false" class="icon icon--search " viewBox="0 0 21 21" role="presentation">
+      <g stroke-width="2" stroke="currentColor" fill="none" fill-rule="evenodd">
+        <path d="M19 19l-5-5" stroke-linecap="square"></path>
+        <circle cx="8.5" cy="8.5" r="7.5"></circle>
+      </g>
+    </svg></a>
+            </div><div class="header__action-item header__action-item--cart">
+            <a class="header__action-item-link header__cart-toggle" href="https://moxa.pro/cart" rel="nofollow" aria-controls="mini-cart" aria-expanded="false" data-action="toggle-mini-cart" data-no-instant="">
+              <div class="header__action-item-content">
+                <div class="header__cart-icon icon-state" aria-expanded="false">
+                  <span class="icon-state__primary"><svg focusable="false" class="icon icon--cart " viewBox="0 0 27 24" role="presentation">
+      <g transform="translate(0 1)" stroke-width="2" stroke="currentColor" fill="none" fill-rule="evenodd">
+        <circle stroke-linecap="square" cx="11" cy="20" r="2"></circle>
+        <circle stroke-linecap="square" cx="22" cy="20" r="2"></circle>
+        <path d="M7.31 5h18.27l-1.44 10H9.78L6.22 0H0"></path>
+      </g>
+    </svg><span class="header__cart-count">0</span>
+                  </span>
+
+                  <span class="icon-state__secondary"><svg focusable="false" class="icon icon--close " viewBox="0 0 19 19" role="presentation">
+      <path d="M9.1923882 8.39339828l7.7781745-7.7781746 1.4142136 1.41421357-7.7781746 7.77817459 7.7781746 7.77817456L16.9705627 19l-7.7781745-7.7781746L1.41421356 19 0 17.5857864l7.7781746-7.77817456L0 2.02943725 1.41421356.61522369 9.1923882 8.39339828z" fill="currentColor" fill-rule="evenodd"></path>
+    </svg></span>
+                </div>
+
+                <span class="hidden-pocket hidden-lap">Заявка на товар</span>
+              </div>
+            </a><form method="post" action="https://moxa.pro/cart" id="mini-cart" class="mini-cart" aria-hidden="true" novalidate="novalidate" data-item-count="0">
+  <input type="hidden" name="attributes[collection_products_per_page]" value="">
+  <input type="hidden" name="attributes[collection_layout]" value=""><svg focusable="false" class="icon icon--nav-triangle-borderless " viewBox="0 0 20 9" role="presentation">
+      <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+    </svg><div class="mini-cart__content mini-cart__content--empty"><div class="mini-cart__empty-state"><svg focusable="false" width="81" height="70" viewBox="0 0 81 70">
+      <g transform="translate(0 2)" stroke-width="4" stroke="#008787" fill="none" fill-rule="evenodd">
+        <circle stroke-linecap="square" cx="34" cy="60" r="6"></circle>
+        <circle stroke-linecap="square" cx="67" cy="60" r="6"></circle>
+        <path d="M22.9360352 15h54.8070373l-4.3391876 30H30.3387146L19.6676025 0H.99560547"></path>
+      </g>
+    </svg><p class="heading h4">Заявка пуста</p>
+      </div>
+
+      <a href="https://moxa.pro/collections/all" class="button button--primary button--full">В каталог</a>
+    </div></form>
+</div>
+        </div>
+      </div>
+    </div>
+  </header><nav class="nav-bar">
+      <div class="nav-bar__inner">
+        <div class="container">
+          <ul class="nav-bar__linklist list--unstyled" data-type="menu" role="list">
+              <li class="nav-bar__item nav-bar__item--static"><a href="https://moxa.pro/collections/all" class="nav-bar__link link" data-type="menuitem" aria-expanded="false" aria-controls="desktop-menu-0-1" aria-haspopup="true">Каталог<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg><svg focusable="false" class="icon icon--nav-triangle " viewBox="0 0 20 9" role="presentation">
+      <g fill="none" fill-rule="evenodd">
+        <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+        <path d="M-.00922471 9C1.38887087 7.61849126 4.26661926 4.80337304 8.62402045.5546454c.75993175-.7409708 1.98812015-.7393145 2.74596565.0037073L19.9800494 9h-1.3748787l-7.9226239-7.7676545c-.3789219-.3715101-.9930172-.3723389-1.3729808-.0018557-3.20734177 3.1273507-5.6127118 5.4776841-7.21584193 7.05073579C1.82769633 8.54226204 1.58379521 8.7818599 1.36203986 9H-.00922471z" fill="#e1e3e4"></path>
+      </g>
+    </svg></a><div id="desktop-menu-0-1" class="mega-menu " data-type="menu" aria-hidden="true" role="list"><div class="container"><div class="mega-menu__inner mega-menu__inner--center mega-menu__inner--large"><div class="mega-menu__column">
+              <a class="mega-menu__title heading"><b>Промышленный Ethernet</b></a><ul class="mega-menu__linklist" role="list"><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/switches" class="mega-menu__link link">Коммутаторы Ethernet</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/secure-routers" class="mega-menu__link link">Межсетевые экраны</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/cellular" class="mega-menu__link link">Сотовая связь</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/wi-fi" class="mega-menu__link link">Промышленный Wi-Fi</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/mediaconverters-ethernet" class="mega-menu__link link">Ethernet в оптоволокно</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/ethernet-extenders" class="mega-menu__link link">Удлинители Ethernet по DSL</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/sfp-modules" class="mega-menu__link link">Промышленные SFP-модули</a>
+                    </li></ul></div><div class="mega-menu__column">
+              <a class="mega-menu__title heading"><b>Полевые шины и устройства</b></a><ul class="mega-menu__linklist" role="list"><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/nport" class="mega-menu__link link">NPort: COM в Ethernet</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/gateways" class="mega-menu__link link">Шлюзы протоколов</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/serial-converters" class="mega-menu__link link">Преобразователи интерфейсов</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/fieldbus-to-fiber" class="mega-menu__link link">Медиаконвертеры</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/multiport-serial-boards" class="mega-menu__link link">Платы COM-портов</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/controllers" class="mega-menu__link link">Контроллеры и модули</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/video" class="mega-menu__link link">Видеонаблюдение</a>
+                    </li></ul></div><div class="mega-menu__column">
+              <a class="mega-menu__title heading"><b>Компьютеры и мониторы</b></a><ul class="mega-menu__linklist" role="list"><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/industrial-computing" class="mega-menu__link link">Промышленные компьютеры</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/panel-computers" class="mega-menu__link link">Панельные компьютеры</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/collections/displays" class="mega-menu__link link">Мониторы</a>
+                    </li></ul><a href="https://moxa.pro/collections/accessories" class="mega-menu__title heading" style="margin-top: 61px;"><b>Аксессуары</b></a>
+             	    <a href="https://moxa.pro/collections/all" class="menu__action-link" style="margin-top: 10px;">Смотреть все товары<svg focusable="false" class="icon icon--tail-right " viewBox="0 0 24 24" role="presentation">
+      <path fill="currentColor" d="M22.707 11.293L15 3.586 13.586 5l6 6H2c-.553 0-1 .448-1 1s.447 1 1 1h17.586l-6 6L15 20.414l7.707-7.707c.391-.391.391-1.023 0-1.414z"></path>
+    </svg></a></div><a href="https://moxa.pro/pages/eds-4000" class="mega-menu__promo">
+          <div class="mega-menu__image-wrapper">
+            <div class="aspect-ratio" style="padding-bottom: 53.27272727272727%">
+              <img class="lazyload image--fade-in" data-src="//moxa.pro/cdn/shop/files/EDS-4000-Family_550x.png?v=1647435052" alt="">
+            </div>
+          </div>
+
+          <span class="mega-menu__image-heading heading h4">Новая линейка защищённых коммутаторов EDS-4000/G4000</span>
+          <p class="mega-menu__image-text"></p>
+        </a></div></div></div>
+</li>
+              <li class="nav-bar__item nav-bar__item--static"><a class="nav-bar__link link" data-type="menuitem" aria-expanded="false" aria-controls="desktop-menu-0-2" aria-haspopup="true">Поддержка<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path>
+    </svg><svg focusable="false" class="icon icon--nav-triangle " viewBox="0 0 20 9" role="presentation">
+      <g fill="none" fill-rule="evenodd">
+        <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+        <path d="M-.00922471 9C1.38887087 7.61849126 4.26661926 4.80337304 8.62402045.5546454c.75993175-.7409708 1.98812015-.7393145 2.74596565.0037073L19.9800494 9h-1.3748787l-7.9226239-7.7676545c-.3789219-.3715101-.9930172-.3723389-1.3729808-.0018557-3.20734177 3.1273507-5.6127118 5.4776841-7.21584193 7.05073579C1.82769633 8.54226204 1.58379521 8.7818599 1.36203986 9H-.00922471z" fill="#e1e3e4"></path>
+      </g>
+    </svg></a><div id="desktop-menu-0-2" class="mega-menu " data-type="menu" aria-hidden="true" role="list"><div class="container"><div class="mega-menu__inner mega-menu__inner--center"><div class="mega-menu__column">
+              <a class="mega-menu__title heading"><b>Поддержка и сервис</b></a><ul class="mega-menu__linklist" role="list"><li class="mega-menu__item">
+                      <a href="https://moxa.pro/pages/tech-support" class="mega-menu__link link">Техническая поддержка</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/pages/product-repair-service" class="mega-menu__link link">Сервисное обслуживание</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/pages/test-drive" class="mega-menu__link link">Программа Тест-драйв</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/pages/mca" class="mega-menu__link link">Технический тренинг MCA</a>
+                    </li></ul></div><div class="mega-menu__column">
+              <a class="mega-menu__title heading"><b>Библиотека</b></a><ul class="mega-menu__linklist" role="list"><li class="mega-menu__item">
+                      <a href="https://moxa.pro/blogs/faq" class="mega-menu__link link">База знаний / F.A.Q.</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/blogs/training" class="mega-menu__link link">Обучающие статьи</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/pages/literature-library" class="mega-menu__link link">Каталоги и брошюры</a>
+                    </li><li class="mega-menu__item">
+                      <a href="https://moxa.pro/blogs/technologies" class="mega-menu__link link">Технологии</a>
+                    </li></ul></div><a href="https://moxa.pro/pages/video" class="mega-menu__promo">
+          <div class="mega-menu__image-wrapper">
+            <div class="aspect-ratio" style="padding-bottom: 69.63636363636363%">
+              <img class="lazyload image--fade-in" data-src="//moxa.pro/cdn/shop/files/study_image_new_550x.png?v=1642759140" alt="">
+            </div>
+          </div>
+
+          <span class="mega-menu__image-heading heading h4">Обучающие видеоролики</span>
+          <p class="mega-menu__image-text"></p>
+        </a><a href="https://moxa.pro/pages/mca" class="mega-menu__promo">
+          <div class="mega-menu__image-wrapper">
+            <div class="aspect-ratio" style="padding-bottom: 69.57142857142857%">
+              <img class="lazyload image--fade-in" data-src="//moxa.pro/cdn/shop/files/mca_cover_b28f0b71-5ac1-4df3-a60c-1376a47e9dfb_550x.png?v=1642058265" alt="">
+            </div>
+          </div>
+
+          <span class="mega-menu__image-heading heading h4">Технический тренинг</span>
+          <p class="mega-menu__image-text"></p>
+        </a></div></div></div>
+</li>
+              <li class="nav-bar__item"><a href="https://moxa.pro/blogs/news" class="nav-bar__link link" data-type="menuitem">Новости</a></li>
+              <li class="nav-bar__item"><a href="https://moxa.pro/blogs/articles" class="nav-bar__link link" data-type="menuitem">Статьи и обзоры</a></li>
+              <li class="nav-bar__item"><a href="https://moxa.pro/blogs/solutions" class="nav-bar__link link" data-type="menuitem">Решения</a></li>
+              <li class="nav-bar__item"><a href="https://moxa.pro/pages/about" class="nav-bar__link link" data-type="menuitem">О компании</a></li>
+              <li class="nav-bar__item"><a href="https://moxa.pro/pages/where-to-buy" class="nav-bar__link link" data-type="menuitem">Где купить</a></li></ul>
+        </div>
+      </div>
+    </nav></section>
+
+<style>
+  :root {
+    --header-is-sticky: 0;
+    --header-inline-navigation: 1;
+  }
+
+  #shopify-section-header {
+    position: relative;
+    z-index: 5;}@media screen and (min-width: 509px) {
+      .header__logo-image {
+        max-width: 360px !important;
+      }
+    }.search-bar__top {
+      box-shadow: 1px 1px var(--header-border-color) inset, -1px -1px var(--header-border-color) inset;
+    }
+
+    @media screen and (min-width: 1000px) {
+      /* This allows to reduce the padding if header background is the same as secondary background to avoid space that is too big */
+      .header:not(.header--condensed) {
+        padding-bottom: 0;
+      }
+    }</style>
+
+<script>
+  document.documentElement.style.setProperty('--header-height', document.getElementById('shopify-section-header').clientHeight + 'px');
+</script>
+
+
+</div>
+
+    <main id="main" role="main">
+      
+      
+      
+      <div id="shopify-section-template--18963871072592__main" class="shopify-section"><article data-section-id="template--18963871072592__main" data-section-type="blog-post">
+  <div class="container">
+    
+	<nav class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList" aria-label="Хлебные крошки" role="navigation">
+  		<div itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+    		<a itemprop="item" href="https://moxa.pro/" title="Главная"><span itemprop="name">Главная</span></a>
+      		<meta itemprop="position" content="1"><svg focusable="false" class="icon icon--arrow-right " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M2 2l4 4-4 4" fill="none" stroke-linecap="square"></path>
+    </svg></div>
+
+		<div itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+    		<a itemprop="item" href="https://moxa.pro/blogs/articles" title="Статьи и обзоры"><span itemprop="name">Статьи и обзоры</span></a>
+ 			<meta itemprop="position" content="2"><svg focusable="false" class="icon icon--arrow-right " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M2 2l4 4-4 4" fill="none" stroke-linecap="square"></path>
+    </svg></div>
+
+		<span class="breadcrumbs__last-item">Что такое NAT? Особенности в MOXA</span>
+	</nav>
+    
+    
+    <header class="page__header page__header--stack">
+      <h1 class="page__title heading h1">Что такое NAT? Особенности в MOXA</h1></header>
+
+    <div class="blog-container">
+      <div class="blog-post"><div class="article__inner">
+          <div class="article__content rte">
+            <p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_cover.jpg" alt="Что такое NAT? Особенности в MOXA" title="Что такое NAT? Особенности в MOXA"></p>
+<blockquote>
+<p><b>Содержание:</b></p>
+<ul>
+<li><a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#nat">Что такое NAT?</a></li>
+<li><a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#zachem">Зачем использовать NAT?</a></li>
+<li><a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#kakie">Какие бывают NAT?</a></li>
+<li>
+<a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#1-k-1">1-к-1 NAT</a>
+<ul>
+<li><a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#bidirectional">Bidirectional 1-к-1 NAT</a></li>
+</ul>
+</li>
+<li><a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#n-k-1">N-к-1 NAT</a></li>
+<li><a href="https://moxa.pro/blogs/articles/chto-takoe-nat-osobennosti-v-moxa#port-forward">Port Forward / Проброс портов</a></li>
+</ul>
+</blockquote>
+<a name="nat"></a>
+<h2>Что такое NAT?</h2>
+<p>NAT (<i>Network Address Translation, трансляция сетевых адресов</i>) — это функция для изменения IP-адреса во время передачи пакетов Ethernet через маршрутизатор. Чаще всего используется для подключения устройств в локальной сети к сети Интернет, но может использовать и для других целей. <a name="zachem"></a></p>
+<h2>Зачем использовать NAT?</h2>
+<ol>
+<li>Из-за ограниченного количества IP адресов. В сетях IPv4 количество адресов чуть более 4 млрд. (4 228 250 625). Это в два раза меньше населения нашей планеты, так что на всех не хватит. А ведь еще есть миллиарды устройств, которые тоже должны выходить в Интернет (привет Интернету Вещей). Для решения проблемы нехватки уникальных IP адресов и придумали NAT. Теперь к одному маршрутизатору можно подключить десятки устройств, которые будут иметь разные внутренние IP адреса и только один уникальный внешний IP адрес, по которому будут доступны из Интернета. (только при использовании NAT в режиме N-к-1).</li>
+<li>Для безопасности, когда нужно скрыть внутренний IP-адрес (LAN) устройств от внешней сети (WAN). Функция NAT преобразовывает внутренний IP-адрес в определенный IP-адрес или диапазон внутренних IP-адресов в один внешний IP-адрес.</li>
+<li>Для безопасности, когда нужно скрыть тип сервиса или номер порта, который использует устройство. В этом случае происходит подмена не IP адреса, а номер порта заменяется на общеизвестный порт (например, на 80-й порт HTTP).</li>
+<li>Когда один и тот же IP-адрес используется идентичными сетевыми устройствами и нет возможности его изменить.</li>
+</ol>
+<a name="kakie"></a>
+<h2>Какие бывают NAT?</h2>
+<p>Всего есть 4 типа NAT:</p>
+<ul>
+<li>1-к-1 NAT или Статический NAT
+<ul>
+<li>Bidirectional 1-к-1 NAT</li>
+</ul>
+</li>
+<li>N-к-1 NAT</li>
+<li>Port Forward / Проброс портов</li>
+</ul>
+<a name="1-k-1"></a>
+<h2>Подробнее о NAT 1-к-1 или Статический NAT</h2>
+<p>Самый простой для понимания тип NAT, но и наименее полезный. В случае статического NAT каждому внутреннему IP адресу присваивается уникальный внешний IP адрес.</p>
+<p><b>Пример статического NAT и сетевые настройки:</b></p>
+<p>На картинке ниже ПЛК с локальным IP 192.168.127.1 присвоен внешний постоянный IP 10.0.0.1, по которому он всегда будет доступен из глобальной сети WAN.</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im01.jpg" alt="" title=""></p>
+<p><u><i>Настройка сетевого адаптера на ПЛК:</i></u></p>
+<p>IP: 192.168.127.1</p>
+<p>Mask: 255.255.255.0</p>
+<p>Gateway: 192.168.127.254</p>
+<p>Обратите внимание, так как сообщение отправляется в другую подсеть, на ПЛК обязательно указывать Шлюз по умолчанию. <b>В качестве <i>MAC-адреса</i> получателя ПЛК ставит адрес шлюза. При этом <i>IP-адрес</i> получателя в пакете остаётся 192.168.126.1</b>.</p>
+<p><u><i>Настройка маршрутизатора:</i></u></p>
+<p>На маршрутизаторе создаем WAN интерфейс, через который он будет подключаться к внешней сети.</p>
+<p>Внешний адрес WAN-интерфейса: 10.0.0.1</p>
+<p>LAN интерфейс: 192.168.127.254</p>
+<p>IP веб-интерфейса маршрутизатора: 192.168.127.254</p>
+<p><u><i>Правило NAT на маршрутизаторе будет таким:</i></u></p>
+<p>Для исходящих соединений – заменить внутренний адрес 192.168.127.1 на внешний 10.0.0.1</p>
+<p>Для входящих соединений – переслать пакеты с адресом 10.0.0.1 на внутренний 192.168.127.1</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im02.jpg" alt="" title=""></p>
+<p>Вот так происходит подмена IP адресов:</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im03.jpg" alt="" title=""></p>
+<p>Особенности 1-1 NAT:</p>
+<ul>
+<li>Количество устройств за NAT ограничено количеством полученных у провайдера уникальных IP адресов или количеством WAN портов на натирующем устройстве.</li>
+<li>Устройства с зарезервированными адресами могут быть доступны извне по уникальным адресам.</li>
+<li>Связь двунаправленная, т.е. можно связаться с устройством за NAT по его внешнему IP-адресу, не требуется первичной установки соединения, и устройство за NAT может связываться с внешним миром.</li>
+<li>При Static NAT все порты открыты и не нужно делать проброс портов, устройство за NAT (или запущенная на нем программа) будет всегда доступно по любому порту.</li>
+<li>Этот тип NAT не помогает сохранять IP адреса, но бывает полезен. Например, на производственной линии станки могут иметь одинаковые внутренние IP-адреса (спрятаны за маршрутизатором) и подключаться к внешней сети с разными внешними IP-адресами. Здесь мы используем NAT 1-к-1 для сопоставления внутренних адресов с публичными IP-адресами. Внутренний IP-адрес устройств не изменяется, что позволяет, например, заготавливать заранее настроенный ЗИП или просто выпускать с производства оборудование с одинаковыми настройками (в данном случае – станки).</li>
+</ul>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im04.jpg" alt="" title=""></p>
+<p>Пример настройки правил NAT на двух маршрутизаторах EDR-G903:</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im05.jpg" alt="" title=""></p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im06.jpg" alt="" title=""> <a name="bidirectional"></a></p>
+<h2>Bidirectional 1-к-1 NAT</h2>
+<p>Bidirectional NAT является разновидностью обычного NAT 1-1 и позволяет организовать связь между разными подсетями без указания Основного шлюза в настройках сетевого адаптера.</p>
+<p>На некоторых устройствах нельзя прописать основной шлюз по умолчанию в настройках сетевого адаптера. Как быть, если нужно соединить такое устройство с другой подсетью через маршрутизатор? В этом случае на помощь приходит Bidirectional NAT.</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im07.jpg" alt="" title=""></p>
+<p>Вот как настраивается правило Bidirectional NAT на маршрутизаторе EDR-810:</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im08.jpg" alt="" title=""></p>
+<p>Разница между обычным 1-1 NAT и Bidirectional NAT заключается в простом нюансе: в первом случае устройство знает, что существуют другие подсети, и для выхода на них использует шлюз умолчанию с дальнейшей подменой адресов на роутере; во втором случае устройство «обмануто» и думает, что общается внутри своей подсети. Логично, что Bidirectional NAT используется для более старых или простых приборов, а обычный 1-1 NAT работает с более умными устройствами.</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im09.jpg" alt="" title=""> <a name="n-k-1"></a></p>
+<h2>Подробнее о NAT N-к-1, он же Port Address Translation (PAT), NAT Overload или IP Masquerading</h2>
+<p>В случае NAT N-к-1 через один внешний IP адрес в сеть могут выходить десятки и сотни устройств, находящиеся за NAT. Такой подход помогает экономить дефицитные IP адреса v4. Можно иметь до 65 535 одновременных активных соединений через один и тот же адрес.</p>
+<p>Также технология позволяет скрыть реальный IP адрес и порт устройств и приложений за NAT, что повышает безопасность.</p>
+<p>Ограничение N-1 NAT:</p>
+<p>Главным минусом и в то же время плюсом (в зависимости от задач) этой технологии является то, что она не позволяет иметь доступ извне к внутренним узлам. Все соединения должны быть инициированы изнутри, т.е. инициатором связи всегда является устройство за NAT. Невозможно установить связь с устройством из внешней сети.</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im10.jpg" alt="" title=""></p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im11.jpg" alt="" title=""></p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im12.jpg" alt="" title=""></p>
+<p>Как мы видим, роутер метит информацию от компьютеров из внутренней сети при помощи портов на 4 уровне модели OSI: он запоминает сопоставление внутренних портов источника (до WAN) и вновь сгенерированных внешних (после WAN). Когда приходят разные ответы, то, хоть они и поступают на один и тот же IP-адрес WAN-порта, роутер безошибочно распределяет их по правильным компьютерам согласно этому сопоставлению. <a name="port-forward"></a></p>
+<h2>Port Forward / Проброс портов</h2>
+<p>Проброс портов позволяет указать, что все запросы, приходящие на конкретный внешний адрес и конкретный порт маршрутизатора, должны быть перенаправлены на конкретный внутренний адрес и порт получателя.</p>
+<p>Требуется, если TCP-сервер находится за NAT или для подключения UDP, инициированного извне. То есть, Port Forward позволяет обойти ограничение NAT N-к-1.</p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im13.jpg" alt="" title=""></p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im14.jpg" alt="" title=""></p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im15.jpg" alt="" title=""></p>
+<p>Функция проброса портов NAT является одним из способов подключения из внешней незащищенной зоны (WAN) во внутреннюю защищенную зону (LAN). Пользователь может инициировать подключение из внешней сети к внутренней сети, но не сможет инициировать подключение из внутренней сети к внешней сети.</p>
+<p class="text-primary">Внимание: будьте осторожны, используя проброс портов в Интернет! Если злоумышленники узнают IP-адрес и TCP/UDP-порт вашего устройства, то они смогут получить к нему доступ из любой точки мира! Прежде, чем настраивать проброс портов в открытом доступе, лучше заранее подумать обо всех необходимых мерах по кибербезопасности.</p>
+<div class="link-block">
+<i class="icon-link"></i><span><a href="https://moxa.pro/blogs/articles/nport-vy-vklyuchili-vse-funktsii-bezopasnosti/">NPort: вы включили все функции безопасности?</a></span>
+</div>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im16.jpg" alt="" title=""></p>
+<p class="text-center"><img src="./Что такое NAT_ Особенности в MOXA_files/nat_im17.jpg" alt="" title=""></p>
+<div class="link-block">
+<i class="icon-link"></i><span><a href="https://moxa.pro/blogs/articles/promyshlennyy-router-edr-ot-moxa-ili-pochemu-vam-ne-podkhodit-obychnyy-firewall/">Промышленный роутер EDR от MOXA, или почему Вам не подходит обычный Firewall?</a></span>
+</div>
+<h3>Оборудование с поддержкой NAT</h3>
+<p>NAT-102: <a href="https://moxa.pro/products/nat-102-t"><span>2-портовое промышленное устройство для ретрансляции адресов</span></a></p>
+<p class="text-center"><a href="https://moxa.pro/collections/secure-routers">Промышленные маршрутизаторы MOXA</a> серии EDR</p>
+<div class="table-wrapper"><table class="table table-bordered ">
+<tbody>
+<tr>
+<th class="text-center" rowspan="2" style="vertical-align: middle;">Модель</th>
+<td class="text-center text-middle"><img src="./Что такое NAT_ Особенности в MOXA_files/t_01.jpg"></td>
+<td class="text-center text-middle"><img src="./Что такое NAT_ Особенности в MOXA_files/t_02.jpg"></td>
+<td class="text-center text-middle"><img src="./Что такое NAT_ Особенности в MOXA_files/t_03.jpg"></td>
+</tr>
+<tr>
+<th class="text-center text-middle"><a href="https://moxa.pro/products/edr-g903">EDR-G903</a></th>
+<th class="text-center text-middle"><a href="https://moxa.pro/products/edr-g902">EDR-G902</a></th>
+<th class="text-center text-middle"><a href="https://moxa.pro/products/edr-810-2gsfp">EDR-810</a></th>
+</tr>
+<tr>
+<td class="text-center" style="vertical-align: middle;">Требования</td>
+<td class="text-center text-middle">Двойное резервирование WAN</td>
+<td class="text-center text-middle">Защита между WAN and LAN</td>
+<td class="text-center text-middle">Защищенный маршрутизатор с функциями управляемого коммутатора L2; несколько портов для подключения устройств</td>
+</tr>
+<tr>
+<td class="text-center" style="vertical-align: middle;">Порты</td>
+<td class="text-center text-middle">2 WAN (Комбо)<br>1 LAN (Комбо)</td>
+<td class="text-center text-middle">1 WAN (Комбо)<br>1 LAN (RJ45)</td>
+<td class="text-center text-middle">1 WAN<br>15 LAN (оптика по SFP или RJ45)</td>
+</tr>
+<tr>
+<td class="text-center" style="vertical-align: middle;">Пропускная способность</td>
+<td class="text-center text-middle">40,000 fps</td>
+<td class="text-center text-middle">25,000 fps</td>
+<td class="text-center text-middle">10,000 fps</td>
+</tr>
+<tr>
+<td class="text-center" style="vertical-align: middle;">Firewall/NAT</td>
+<td class="text-center " style="vertical-align: middle;">512 / 256 правил</td>
+<td class="text-center text-middle">256 / 128 правил</td>
+<td class="text-center text-middle">256 / 128 правил</td>
+</tr>
+<tr>
+<td class="text-center " style="vertical-align: middle;">VPN</td>
+<td class="text-center text-middle">100 IPSec туннелей</td>
+<td class="text-center text-middle">50 IPSec туннелей</td>
+<td class="text-center text-middle">10 IPSec туннелей</td>
+</tr>
+<tr>
+<td class="text-center " style="vertical-align: middle;">Резервирование WAN</td>
+<td class="text-center text-middle">2 независимых WAN</td>
+<td class="text-center text-middle">—</td>
+<td class="text-center text-middle">—</td>
+</tr>
+<tr>
+<td class="text-center " style="vertical-align: middle;">DMZ (демилитаризованная зона)</td>
+<td class="text-center text-middle">1</td>
+<td class="text-center text-middle">—</td>
+<td class="text-center text-middle">—</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p>Если у Вас есть вопросы по продукции МОХА, обращайтесь по телефону: +7 (495) 419-1201 или по e-mail: <a href="mailto:russia@moxa.pro" target="_blank" rel="noopener" aria-describedby="a11y-new-window-message">russia@moxa.pro</a></p>
+          </div><div class="article__navigation "><a href="https://moxa.pro/blogs/articles/tsn-budushchee-promyshlennyh-setey" class="article__navigation-item article__navigation-item--prev text--strong link" rel="prev"><svg focusable="false" class="icon icon--arrow-left " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M6 10L2 6l4-4" fill="none" stroke-linecap="square"></path>
+    </svg>Предыдущая статья</a><a href="https://moxa.pro/blogs/articles/otchet-o-testirovanii-sds-3008" class="article__navigation-item article__navigation-item--next text--strong link" rel="next">Следующая статья<svg focusable="false" class="icon icon--arrow-right " viewBox="0 0 8 12" role="presentation">
+      <path stroke="currentColor" stroke-width="2" d="M2 2l4 4-4 4" fill="none" stroke-linecap="square"></path>
+    </svg></a></div></div>
+      </div><div class="blog-sidebar hidden-tablet"><div class="blog-sidebar__item blog-sidebar__item--products" id="block-2feaf92f-7a85-44dc-98c7-ba63e826c371">
+          		<p class="blog-sidebar__block-title heading h3">Товары из статьи</p>
+              	<div class="product-list product-list--horizontal"> <div class="product-item product-item--horizontal  "><a href="https://moxa.pro/products/nat-102-t" class="product-item__image-wrapper product-item__image-wrapper--with-secondary"><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image image--fade-in lazyautosizes lazyloaded" data-media-id="46195530334544" data-sizes="auto" data-widths="[300]" alt="NAT-102-T" data-srcset="//moxa.pro/cdn/shop/files/f8710fb5-1687-4084-a035-43b2cf9b5ef8_300x.jpg?v=1708974942 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/f8710fb5-1687-4084-a035-43b2cf9b5ef8_300x.jpg?v=1708974942 300w"><img class="product-item__secondary-image image--fade-in lazyautosizes lazyloaded" data-sizes="auto" data-widths="[300]" alt="NAT-102-T" data-srcset="//moxa.pro/cdn/shop/files/d3610cf8-ce20-42eb-9d16-38f974e95074_300x.jpg?v=1708974942 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/d3610cf8-ce20-42eb-9d16-38f974e95074_300x.jpg?v=1708974942 300w"><noscript>
+          <img src="//moxa.pro/cdn/shop/files/f8710fb5-1687-4084-a035-43b2cf9b5ef8_300x.jpg?v=1708974942" alt="NAT-102-T">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/nat-102-t" class="product-item__title text--strong link">NAT-102-T</a>
+      <div class="productitem--description">
+        2-портовоый промышленный модуль контроллера ретрансляции сетевых адресов (NAT device), 12/24/48VDC-in, -40...+75C
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$990,77</span>    
+          	
+              <span class="price_in_currency">91 562,50 ₽</span>
+            
+</div>
+</div></div>
+</div> <div class="product-item product-item--horizontal  "><a href="https://moxa.pro/products/edr-g903" class="product-item__image-wrapper product-item__image-wrapper--with-secondary"><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image image--fade-in lazyautosizes lazyloaded" data-media-id="46195532792144" data-sizes="auto" data-widths="[300]" alt="EDR-G903" data-srcset="//moxa.pro/cdn/shop/files/676e4ad2-495d-4b86-b0ba-004744188ec5_999d5cd8-682a-4716-a58c-2ad6c27b0d46_300x.jpg?v=1708974948 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/676e4ad2-495d-4b86-b0ba-004744188ec5_999d5cd8-682a-4716-a58c-2ad6c27b0d46_300x.jpg?v=1708974948 300w"><img class="product-item__secondary-image image--fade-in lazyautosizes lazyloaded" data-sizes="auto" data-widths="[300]" alt="EDR-G903" data-srcset="//moxa.pro/cdn/shop/files/6524fedc-2c2a-4417-a3e1-f8873aa0c4e9_2edc2fde-91c8-4877-b555-5ccbfc0b04ae_300x.jpg?v=1708974949 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/6524fedc-2c2a-4417-a3e1-f8873aa0c4e9_2edc2fde-91c8-4877-b555-5ccbfc0b04ae_300x.jpg?v=1708974949 300w"><noscript>
+          <img src="//moxa.pro/cdn/shop/files/676e4ad2-495d-4b86-b0ba-004744188ec5_999d5cd8-682a-4716-a58c-2ad6c27b0d46_300x.jpg?v=1708974948" alt="EDR-G903">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-g903" class="product-item__title text--strong link">EDR-G903</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 2 WAN комбо-порта Gigabit Ethernet (RJ-45 + SFP), 1 комбо-порт LAN Gigabit Ethernet, Firewall/NAT/VPN, 0...+60C
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$2 988,04</span>    
+          	
+              <span class="price_in_currency">276 141,21 ₽</span>
+            
+</div>
+</div></div>
+</div> <div class="product-item product-item--horizontal  "><a href="https://moxa.pro/products/edr-g902" class="product-item__image-wrapper product-item__image-wrapper--with-secondary"><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image image--fade-in lazyautosizes lazyloaded" data-media-id="46195456475472" data-sizes="auto" data-widths="[300]" alt="EDR-G902" data-srcset="//moxa.pro/cdn/shop/files/1a926ad2-de85-4917-a3b7-271dd0fc5d33_300x.jpg?v=1708974778 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/1a926ad2-de85-4917-a3b7-271dd0fc5d33_300x.jpg?v=1708974778 300w"><img class="product-item__secondary-image image--fade-in lazyautosizes lazyloaded" data-sizes="auto" data-widths="[300]" alt="EDR-G902" data-srcset="//moxa.pro/cdn/shop/files/99bab060-7645-445f-ab3d-1ee9de927432_300x.jpg?v=1708974777 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/99bab060-7645-445f-ab3d-1ee9de927432_300x.jpg?v=1708974777 300w"><noscript>
+          <img src="//moxa.pro/cdn/shop/files/1a926ad2-de85-4917-a3b7-271dd0fc5d33_300x.jpg?v=1708974778" alt="EDR-G902">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-g902" class="product-item__title text--strong link">EDR-G902</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 1 WAN комбо-порт Gigabit Ethernet (RJ-45 + SFP), 1 LAN Gigabit Ethernet, Firewall/NAT/VPN, 0...+60C
+      </div><div class="product-item__price-list price-list"></div>
+</div></div>
+</div> <div class="product-item product-item--horizontal  "><a href="https://moxa.pro/products/edr-810-2gsfp" class="product-item__image-wrapper product-item__image-wrapper--with-secondary"><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image image--fade-in lazyautosizes lazyloaded" data-media-id="46195586761040" data-sizes="auto" data-widths="[300]" alt="EDR-810-2GSFP" data-srcset="//moxa.pro/cdn/shop/files/3b74ab99-1fce-48de-a062-f31d08afa3fe_a63953e2-a7a9-43c3-8dcf-d513fa91c27c_300x.jpg?v=1708975041 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/3b74ab99-1fce-48de-a062-f31d08afa3fe_a63953e2-a7a9-43c3-8dcf-d513fa91c27c_300x.jpg?v=1708975041 300w"><img class="product-item__secondary-image image--fade-in lazyautosizes lazyloaded" data-sizes="auto" data-widths="[300]" alt="EDR-810-2GSFP" data-srcset="//moxa.pro/cdn/shop/files/5f26819d-879f-4153-b0d8-69235d77562d_8117fa7e-d5c8-4bc5-abe5-c445394b4788_300x.jpg?v=1708975041 300w" sizes="75px" srcset="//moxa.pro/cdn/shop/files/5f26819d-879f-4153-b0d8-69235d77562d_8117fa7e-d5c8-4bc5-abe5-c445394b4788_300x.jpg?v=1708975041 300w"><noscript>
+          <img src="//moxa.pro/cdn/shop/files/3b74ab99-1fce-48de-a062-f31d08afa3fe_a63953e2-a7a9-43c3-8dcf-d513fa91c27c_300x.jpg?v=1708975041" alt="EDR-810-2GSFP">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-810-2gsfp" class="product-item__title text--strong link">EDR-810-2GSFP</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT, -10...+60 С
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$1 435,80</span>    
+          	
+              <span class="price_in_currency">132 690,17 ₽</span>
+            
+</div>
+</div></div>
+</div></div>
+           </div>
+</div></div>
+  </div>
+</article></div><div id="shopify-section-template--18963871072592__1640166827bce6cafc" class="shopify-section"><section class="section" data-section-id="template--18963871072592__1640166827bce6cafc" data-section-type="liquid">
+  <div class="container"><div class="liquid">
+      <section class="section" data-section-type="product-recommendations" data-section-settings="{
+  &quot;stackable&quot;: false,
+  &quot;layout&quot;: &quot;vertical&quot;,
+  &quot;recommendationsCount&quot;: 8
+}">
+
+        
+
+
+	<header class="section__header">
+	<h2 class="section__title heading h3">Рекомендованные продукты</h2>
+	</header>
+
+    <div class="product-recommendations">
+
+        <div class="scroller">
+          <div class="scroller__inner">
+            <div class="product-list product-list--vertical product-list--scrollable flickity-enabled" tabindex="0">
+
+       
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+<div class="flickity-viewport" style="height: 317.469px; touch-action: pan-y;"><div class="flickity-slider" style="left: 0px;"><div class="product-item product-item--vertical 1/4--lap 1/5--desk 1/6--wide is-selected" style="position: absolute; left: 0%;"><a href="https://moxa.pro/products/edr-8010-vpn-2gsfp-ct-t" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338733703504" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_d8503bd4-13a8-4bbf-872d-9f97f23fc7e9_{width}x.jpg?v=1710487243" data-sizes="auto" data-widths="[300]" alt="EDR-8010-VPN-2GSFP-CT-T"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_d8503bd4-13a8-4bbf-872d-9f97f23fc7e9_300x.jpg?v=1710487243" alt="EDR-8010-VPN-2GSFP-CT-T">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-vpn-2gsfp-ct-t" class="product-item__title text--strong link">EDR-8010-VPN-2GSFP-CT-T</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT/VPN, -40...+75 С, 12/24/48VDC-in, защитное покрытие
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$2 287,42</span>    
+          	
+              <span class="price_in_currency">211 393,06 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical 1/4--lap 1/5--desk 1/6--wide is-selected" style="position: absolute; left: 16.67%;"><a href="https://moxa.pro/products/edr-8010-vpn-2gsfp-ct" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338733474128" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_051706a1-b413-4f77-b0bc-ca064689e530_{width}x.jpg?v=1710487243" data-sizes="auto" data-widths="[300]" alt="EDR-8010-VPN-2GSFP-CT"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_051706a1-b413-4f77-b0bc-ca064689e530_300x.jpg?v=1710487243" alt="EDR-8010-VPN-2GSFP-CT">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-vpn-2gsfp-ct" class="product-item__title text--strong link">EDR-8010-VPN-2GSFP-CT</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT/VPN, -10...+60 С, 12/24/48VDC-in, защитное покрытие
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$2 111,35</span>    
+          	
+              <span class="price_in_currency">195 121,47 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical 1/4--lap 1/5--desk 1/6--wide is-selected" style="position: absolute; left: 33.33%;"><a href="https://moxa.pro/products/edr-8010-vpn-2gsfp-t" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338733343056" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_60dba2d5-e143-4bb4-9a64-053916db2870_{width}x.jpg?v=1710487243" data-sizes="auto" data-widths="[300]" alt="EDR-8010-VPN-2GSFP-T"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_60dba2d5-e143-4bb4-9a64-053916db2870_300x.jpg?v=1710487243" alt="EDR-8010-VPN-2GSFP-T">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-vpn-2gsfp-t" class="product-item__title text--strong link">EDR-8010-VPN-2GSFP-T</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT/VPN, -40...+75 С, 12/24/48VDC-in
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$1 840,49</span>    
+          	
+              <span class="price_in_currency">170 089,80 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical 1/4--lap 1/5--desk 1/6--wide is-selected" style="position: absolute; left: 50%;"><a href="https://moxa.pro/products/edr-8010-vpn-2gsfp" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338733179216" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_cd76f750-cf34-41f6-893a-9ce82a3c70c3_{width}x.jpg?v=1710487241" data-sizes="auto" data-widths="[300]" alt="EDR-8010-VPN-2GSFP"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_cd76f750-cf34-41f6-893a-9ce82a3c70c3_300x.jpg?v=1710487241" alt="EDR-8010-VPN-2GSFP">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-vpn-2gsfp" class="product-item__title text--strong link">EDR-8010-VPN-2GSFP</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT/VPN, -10...+60 С, 12/24/48VDC-in
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$1 700,54</span>    
+          	
+              <span class="price_in_currency">157 156,25 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical 1/4--lap 1/5--desk 1/6--wide is-selected" style="position: absolute; left: 66.67%;"><a href="https://moxa.pro/products/edr-8010-2gsfp-ct-t" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338732949840" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_a71a86ae-62c5-4434-b0bc-85c4f63ed391_{width}x.jpg?v=1710487241" data-sizes="auto" data-widths="[300]" alt="EDR-8010-2GSFP-CT-T"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_a71a86ae-62c5-4434-b0bc-85c4f63ed391_300x.jpg?v=1710487241" alt="EDR-8010-2GSFP-CT-T">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-2gsfp-ct-t" class="product-item__title text--strong link">EDR-8010-2GSFP-CT-T</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT, -40...+75 С, 12/24/48VDC-in, защитное покрытие
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$2 111,35</span>    
+          	
+              <span class="price_in_currency">195 121,47 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical 1/4--lap 1/5--desk 1/6--wide is-selected" style="position: absolute; left: 83.33%;"><a href="https://moxa.pro/products/edr-8010-2gsfp-ct" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338732917072" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_11bb9767-284a-4fa1-91e9-9d60e0569737_{width}x.jpg?v=1710487240" data-sizes="auto" data-widths="[300]" alt="EDR-8010-2GSFP-CT"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_11bb9767-284a-4fa1-91e9-9d60e0569737_300x.jpg?v=1710487240" alt="EDR-8010-2GSFP-CT">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-2gsfp-ct" class="product-item__title text--strong link">EDR-8010-2GSFP-CT</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT, -10...+60 С, 12/24/48VDC-in, защитное покрытие
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$1 937,56</span>    
+          	
+              <span class="price_in_currency">179 060,58 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical  1/4--lap 1/5--desk 1/6--wide" aria-hidden="true" style="position: absolute; left: 100%;"><a href="https://moxa.pro/products/edr-8010-2gsfp-t" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338732884304" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_88635c49-2cf7-4c8c-9aea-b15ac73f8e0f_{width}x.jpg?v=1710487240" data-sizes="auto" data-widths="[300]" alt="EDR-8010-2GSFP-T"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_88635c49-2cf7-4c8c-9aea-b15ac73f8e0f_300x.jpg?v=1710487240" alt="EDR-8010-2GSFP-T">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-2gsfp-t" class="product-item__title text--strong link">EDR-8010-2GSFP-T</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT, -40...+75 С, 12/24/48VDC-in
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$1 700,54</span>    
+          	
+              <span class="price_in_currency">157 156,25 ₽</span>
+            
+</div>
+</div></div>
+</div><div class="product-item product-item--vertical  1/4--lap 1/5--desk 1/6--wide" aria-hidden="true" style="position: absolute; left: 116.66%;"><a href="https://moxa.pro/products/edr-8010-2gsfp" class="product-item__image-wrapper "><div class="aspect-ratio aspect-ratio--short" style="padding-bottom: 100.0%">
+        <img class="product-item__primary-image lazyload image--fade-in" data-media-id="46338732851536" data-src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_{width}x.jpg?v=1710487239" data-sizes="auto" data-widths="[300]" alt="EDR-8010-2GSFP"><noscript>
+          <img src="//moxa.pro/cdn/shop/products/70fee965-c091-4113-a579-e2db391ce9c8_300x.jpg?v=1710487239" alt="EDR-8010-2GSFP">
+        </noscript>
+      </div>
+    </a><div class="product-item__info">
+    <div class="product-item__info-inner">
+<a href="https://moxa.pro/products/edr-8010-2gsfp" class="product-item__title text--strong link">EDR-8010-2GSFP</a>
+      <div class="productitem--description">
+        Промышленный маршрутизатор безопасности: 8 портов 10/100 BaseT(X) + 2 Gigabit Ethernet SFP, Firewall/NAT, -10...+60 С, 12/24/48VDC-in
+      </div><div class="product-item__price-list price-list"> 
+            <span class="price">$1 558,34</span>    
+          	
+              <span class="price_in_currency">144 014,77 ₽</span>
+            
+</div>
+</div></div>
+</div></div></div><button class="flickity-button flickity-prev-next-button previous" type="button" disabled="" aria-label="Previous"><svg class="flickity-button-icon" viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50  L 70,10 L 60,0 Z" class="arrow"></path></svg></button><button class="flickity-button flickity-prev-next-button next" type="button" aria-label="Next"><svg class="flickity-button-icon" viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50  L 70,10 L 60,0 Z" class="arrow" transform="translate(100, 100) rotate(180) "></path></svg></button></div>
+       	 </div>
+       </div>
+
+    </div>
+
+
+
+</section>
+    </div>
+  </div>
+</section>
+
+</div><div id="shopify-section-template--18963871072592__16407717173f64658d" class="shopify-section"><section class="section" data-section-id="template--18963871072592__16407717173f64658d" data-section-type="recently-viewed-products" data-section-settings="{
+  &quot;currentProductId&quot;: null
+}">
+  <div class="container"><header class="section__header">
+        <h2 class="section__title heading h3">Недавно просмотренные</h2>
+      </header><div class="recently-viewed-products-placeholder"></div>
+  </div><style>
+      /* By default the section is hidden as we do not know if there are product yet */
+      #shopify-section-template--18963871072592__16407717173f64658d {
+        display: none;
+      }
+    </style><div id="modal-quick-view-template--18963871072592__16407717173f64658d" class="modal" aria-hidden="true">
+    <div class="modal__dialog modal__dialog--stretch" role="dialog">
+      <button class="modal__close link" data-action="close-modal" title="Закрыть"><svg focusable="false" class="icon icon--close " viewBox="0 0 19 19" role="presentation">
+      <path d="M9.1923882 8.39339828l7.7781745-7.7781746 1.4142136 1.41421357-7.7781746 7.77817459 7.7781746 7.77817456L16.9705627 19l-7.7781745-7.7781746L1.41421356 19 0 17.5857864l7.7781746-7.77817456L0 2.02943725 1.41421356.61522369 9.1923882 8.39339828z" fill="currentColor" fill-rule="evenodd"></path>
+    </svg></button>
+
+      <div class="modal__loader"><svg focusable="false" class="icon icon--search-loader " viewBox="0 0 64 64" role="presentation">
+      <path opacity=".4" d="M23.8589104 1.05290547C40.92335108-3.43614731 58.45816642 6.79494359 62.94709453 23.8589104c4.48905278 17.06444068-5.74156424 34.59913135-22.80600493 39.08818413S5.54195825 57.2055303 1.05290547 40.1410896C-3.43602265 23.0771228 6.7944697 5.54195825 23.8589104 1.05290547zM38.6146353 57.1445143c13.8647142-3.64731754 22.17719655-17.89443541 18.529879-31.75914961-3.64743965-13.86517841-17.8944354-22.17719655-31.7591496-18.529879S3.20804604 24.7494569 6.8554857 38.6146353c3.64731753 13.8647142 17.8944354 22.17719655 31.7591496 18.529879z"></path>
+      <path d="M1.05290547 40.1410896l5.80258022-1.5264543c3.64731754 13.8647142 17.89443541 22.17719655 31.75914961 18.529879l1.5264543 5.80258023C23.07664892 67.43614731 5.54195825 57.2055303 1.05290547 40.1410896z"></path>
+    </svg></div>
+
+      <div class="modal__inner"></div>
+    </div>
+  </div>
+</section>
+
+</div>
+    </main>
+
+    <div id="shopify-section-static-text-with-icons" class="shopify-section"></div>
+    <div id="shopify-section-footer" class="shopify-section"><footer class="footer" data-section-id="footer" data-section-type="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__wrapper"><div class="footer__block-list"><div class="footer__block-item footer__block-item--links">
+                    <button class="footer__title heading h6" disabled="disabled" aria-expanded="false" aria-controls="block-bbd49e6f-caa0-4d31-8f5b-ab1693b49102" data-action="toggle-collapsible">
+                      <span>Промышленный Ethernet</span>
+                      <span class="plus-button"></span>
+                    </button>
+
+                    <div id="block-bbd49e6f-caa0-4d31-8f5b-ab1693b49102" class="footer__collapsible">
+                      <div class="footer__collapsible-content">
+                        <ul class="footer__linklist list--unstyled" role="list"><li>
+                              <a href="https://moxa.pro/collections/switches" class="footer__link-item link">Коммутаторы Ethernet</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/secure-routers" class="footer__link-item link">Межсетевые экраны</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/cellular" class="footer__link-item link">Сотовая связь</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/wi-fi" class="footer__link-item link">Промышленный Wi-Fi</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/mediaconverters-ethernet" class="footer__link-item link">Ethernet в оптоволокно</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/sfp-modules" class="footer__link-item link">Промышленные SFP-модули</a>
+                            </li></ul>
+                      </div>
+                    </div>
+                  </div><div class="footer__block-item footer__block-item--links">
+                    <button class="footer__title heading h6" disabled="disabled" aria-expanded="false" aria-controls="block-cf8a7886-b82c-48da-b287-45c941ea0f3a" data-action="toggle-collapsible">
+                      <span>Полевые шины и устройства</span>
+                      <span class="plus-button"></span>
+                    </button>
+
+                    <div id="block-cf8a7886-b82c-48da-b287-45c941ea0f3a" class="footer__collapsible">
+                      <div class="footer__collapsible-content">
+                        <ul class="footer__linklist list--unstyled" role="list"><li>
+                              <a href="https://moxa.pro/collections/nport" class="footer__link-item link">NPort: COM в Ethernet</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/gateways" class="footer__link-item link">Шлюзы протоколов</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/serial-converters" class="footer__link-item link">Преобразователи интерфейсов</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/fieldbus-to-fiber" class="footer__link-item link">Медиаконвертеры</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/multiport-serial-boards" class="footer__link-item link">Платы COM-портов</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/controllers" class="footer__link-item link">Контроллеры и модули</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/video" class="footer__link-item link">Видеонаблюдение</a>
+                            </li></ul>
+                      </div>
+                    </div>
+                  </div><div class="footer__block-item footer__block-item--links">
+                    <button class="footer__title heading h6" disabled="disabled" aria-expanded="false" aria-controls="block-6d8c1ce6-1b23-4575-8fe6-a4a05a0cd53b" data-action="toggle-collapsible">
+                      <span>Компьютеры и мониторы</span>
+                      <span class="plus-button"></span>
+                    </button>
+
+                    <div id="block-6d8c1ce6-1b23-4575-8fe6-a4a05a0cd53b" class="footer__collapsible">
+                      <div class="footer__collapsible-content">
+                        <ul class="footer__linklist list--unstyled" role="list"><li>
+                              <a href="https://moxa.pro/collections/industrial-computing" class="footer__link-item link">Промышленные компьютеры</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/panel-computers" class="footer__link-item link">Панельные компьютеры</a>
+                            </li><li>
+                              <a href="https://moxa.pro/collections/displays" class="footer__link-item link">Промышленные мониторы</a>
+                            </li></ul>
+                      </div>
+                    </div>
+                  </div><div class="footer__block-item footer__block-item--links">
+                    <button class="footer__title heading h6" disabled="disabled" aria-expanded="false" aria-controls="block-be741536-7e38-4b9b-8bac-0739fcbdde75" data-action="toggle-collapsible">
+                      <span>Библиотека</span>
+                      <span class="plus-button"></span>
+                    </button>
+
+                    <div id="block-be741536-7e38-4b9b-8bac-0739fcbdde75" class="footer__collapsible">
+                      <div class="footer__collapsible-content">
+                        <ul class="footer__linklist list--unstyled" role="list"><li>
+                              <a href="https://moxa.pro/blogs/news" class="footer__link-item link">Новости</a>
+                            </li><li>
+                              <a href="https://moxa.pro/blogs/articles" class="footer__link-item link">Статьи и обзоры</a>
+                            </li><li>
+                              <a href="https://moxa.pro/blogs/solutions" class="footer__link-item link">Решения</a>
+                            </li><li>
+                              <a href="https://moxa.pro/blogs/training" class="footer__link-item link">Обучающие статьи</a>
+                            </li><li>
+                              <a href="https://moxa.pro/blogs/faq" class="footer__link-item link">База знаний / F.A.Q.</a>
+                            </li><li>
+                              <a href="https://moxa.pro/blogs/technologies" class="footer__link-item link">Технологии</a>
+                            </li></ul>
+                      </div>
+                    </div>
+                  </div><div class="footer__block-item footer__block-item--links">
+                    <button class="footer__title heading h6" disabled="disabled" aria-expanded="false" aria-controls="block-419c80d0-33ba-4e20-be2c-a9f23570deb7" data-action="toggle-collapsible">
+                      <span>Связаться с нами</span>
+                      <span class="plus-button"></span>
+                    </button>
+
+                    <div id="block-419c80d0-33ba-4e20-be2c-a9f23570deb7" class="footer__collapsible">
+                      <div class="footer__collapsible-content">
+                        <ul class="footer__linklist list--unstyled" role="list"><li>
+                              <a href="https://moxa.pro/pages/where-to-buy" class="footer__link-item link">Где купить</a>
+                            </li><li>
+                              <a href="https://moxa.pro/pages/tech-support" class="footer__link-item link">Техническая поддержка</a>
+                            </li><li>
+                              <a href="https://moxa.pro/pages/product-repair-service" class="footer__link-item link">Сервисное обслуживание</a>
+                            </li></ul>
+                      </div>
+                    </div>
+                  </div></div><aside class="footer__aside"><div class="footer__aside-item footer__aside-item--localization hidden-pocket"><div style="margin-bottom: 40px;">Москва: <a href="tel:+7(495)419-12-01" target="_blank" rel="noopener" aria-describedby="a11y-new-window-message">+7 (495) 419-12-01</a>  | Санкт-Петербург: <a href="tel:+7(812)449-61-34" target="_blank" rel="noopener" aria-describedby="a11y-new-window-message">+7 (812) 449-61-34</a> | Почта: <a href="mailto:russia@moxa.pro" target="_blank" rel="noopener" aria-describedby="a11y-new-window-message"><strong>russia@moxa.pro</strong></a></div>
+          <p class="hidden-pocket" style="font-size: 13px;">Все материалы, характеристики, цены представленные на сайте не являются публичной офертой.<br>Оплата принимается в рублях по курсу ЦБ РФ на день оплаты</p><p class="hidden-pocket" style="margin-bottom: 2px;font-size: 12px;">© 2024 MOXA.pro - Решения MOXA для профессионалов в промышленных коммуникациях</p>
+          <p class="hidden-pocket" style="margin-bottom: -50px;font-size: 10px;line-height: 8px;">
+            Сайт официального дистрибьютора MOXA Inc. в России. Данный веб-сайт не имеет отношения к компании Moxa Inc. или её представительствам. MOXA является зарегистрированным товарным знаком компании Moxa Inc.
+          </p>
+        </div><div class="footer__aside-item footer__aside-item--copyright hidden-lap-and-up">
+          <p>© 2024 MOXA.pro - Решения MOXA для профессионалов в промышленных коммуникациях</p>
+        </div>
+      </aside>
+    </div>
+  </div></footer>
+
+
+
+</div>
+
+    <ul hidden="">
+      <li id="a11y-new-window-message">Откроется в новом окне</li>
+    </ul>
+  
+<!--begin-boost-pfs-js-->
+  <script>
+  /* Declare bcSfFilterConfig variable */
+  var boostPFSAppConfig = {
+    api: {
+      filterUrl: 'https://services.mybcapps.com/bc-sf-filter/filter',
+      searchUrl: 'https://services.mybcapps.com/bc-sf-filter/search',
+      suggestionUrl: 'https://services.mybcapps.com/bc-sf-filter/search/suggest',
+      productsUrl: 'https://services.mybcapps.com/bc-sf-filter/search/products',
+      analyticsUrl: 'https://lambda.mybcapps.com/e'
+    },
+    shop: {
+      name: 'MOXA.pro',
+      url: 'https://moxa.pro',
+      domain: 'moxapro.myshopify.com',
+      currency: 'USD',
+      money_format: "\u0026#36;{{amount_with_space_separator}}",
+      money_format_with_currency: "{{amount_with_space_separator}} USD"
+    },
+    general: {
+      file_url: "//moxa.pro/cdn/shop/files/?9561",
+      asset_url: "//moxa.pro/cdn/shop/t/55/assets/boost-pfs.js?9561",
+      collection_id: 0,
+      collection_handle: "",
+      collection_product_count: 0,
+      
+      
+      theme_id: 149446558032,
+      collection_tags: null,
+      current_tags: null,
+      default_sort_by: "",
+      swatch_extension: "png",
+      no_image_url: "//moxa.pro/cdn/shop/t/55/assets/boost-pfs-no-image.gif?v=45510820439899768411684516566",
+      search_term: "",
+      template: "article",currencies: ["USD"],
+      current_currency:"USD",published_locales: {"ru":true},
+      current_locale:"ru",
+      isInitFilter:false},
+    
+    settings: {"general":{"productAndVariantAvailable":false,"availableAfterFiltering":false,"activeFilterScrollbar":true,"showFilterOptionCount":true,"showSingleOption":false,"showOutOfStockOption":false,"collapseOnPCByDefault":false,"collapseOnMobileByDefault":false,"keepToggleState":true,"showRefineBy":true,"capitalizeFilterOptionValues":true,"paginationType":"default","showLoading":false,"activeScrollToTop":true,"customSortingList":"extra-sort1-descending|price-ascending|price-descending|manual|title-descending|title-ascending","enableCollectionSearch":true,"collectionSearchLabel":"Поиск в разделе","changeMobileButtonLabel":false,"sortingAvailableFirst":true,"showVariantImageBasedOn":"","addCollectionToProductUrl":false,"showVariantImageBasedOnSelectedFilter":"","urlScheme":2,"isShortenUrlParam":true,"shortenUrlParamList":["pf_mlt_naznachenie:naznachenie","pf_t_diagonal_displeya:diagonal_displeya","pf_t_maksimalnoe_razreshenie:maksimalnoe_razreshenie","pf_t_processor:processor","pf_t_sootnoshenie_storon:sootnoshenie_storon","pf_t_yarkost_ekrana:yarkost_ekrana","pf_t_portov_ethernet:portov_ethernet","pf_t_com_portov:com_portov","pf_t_portov_rs_232:portov_rs_232","pf_t_portov_rs_422_485:portov_rs_422_485","pf_t_portov_rs_232_422_485:portov_rs_232_422_485","pf_t_usb_portov:usb_portov","pf_mlt_besprovodnaya_svyaz:besprovodnaya_svyaz","pf_t_sloty_rasshireniya:sloty_rasshireniya","pf_t_sovmestimost_s_os:sovmestimost_s_os","pf_t_rabochaya_temperatura:rabochaya_temperatura","pf_mlt_sertifikaty:sertifikaty","pf_mlt_skorost_peredachi:skorost_peredachi","pf_t_tip_optovolokna:tip_optovolokna","pf_t_rasstoyanie_peredachi:rasstoyanie_peredachi","pf_t_temperatura_raboty:temperatura_raboty","pf_t_seriya:seriya","pf_t_montazh:montazh","pf_t_ip_zashchita_izdeliya:ip_zashchita_izdeliya","pf_t_standart_wifi:standart_wifi","pf_t_standartnye_protokoly:standartnye_protokoly","pf_t_cifrovoy_vvod_di:cifrovoy_vvod_di","pf_t_cifrovoy_vyvod_do:cifrovoy_vyvod_do","pf_t_pitanie_poe:pitanie_poe","pf_t_podderzhka_protokolov:podderzhka_protokolov","pf_t_kanalov_diskretnogo_vvoda:kanalov_diskretnogo_vvoda","pf_t_kanalov_diskretnogo_vyvoda:kanalov_diskretnogo_vyvoda","pf_t_tip_diskretnogo_vyvoda:tip_diskretnogo_vyvoda","pf_t_kanalov_analogovogo_vvoda:kanalov_analogovogo_vvoda","pf_t_vhodnoy_signal_napryazheniya:vhodnoy_signal_napryazheniya","pf_t_vhodnoy_signal_toka:vhodnoy_signal_toka","pf_t_tip_termopary:tip_termopary","pf_t_tip_termosoprotivleniya:tip_termosoprotivleniya","pf_t_kanalov_analogovogo_vyvoda:kanalov_analogovogo_vyvoda","pf_t_portov_10_100_mbit:portov_10_100_mbit","pf_t_portov_10_100_1000_mbit:portov_10_100_1000_mbit","pf_t_portov_poe:portov_poe","pf_t_slotov_dlya_sim_kart:slotov_dlya_sim_kart","pf_mlt_seti_4g_3g_2g:seti_4g_3g_2g","pf_t_vstroennyy_gps:vstroennyy_gps","pf_mlt_cifrovoy_vvod_di:cifrovoy_vvod_di1","pf_t_kiberbezopasnost:kiberbezopasnost","pf_t_trebovaniya_po_napryazheniyu_dc:trebovaniya_po_napryazheniyu_dc","pf_c_razdely:razdely","pf_t_portov_100_mbit:portov_100_mbit","pf_t_tip_ustroystva:tip_ustroystva","pf_t_funkcii_upravleniya:funkcii_upravleniya","pf_t_uroven_kommutatora:uroven_kommutatora","pf_t_obshchee_kol_vo_portov:obshchee_kol_vo_portov","pf_t_portov_100_mbit_rj_45:portov_100_mbit_rj_45","pf_t_portov_1_gbit_rj_45:portov_1_gbit_rj_45","pf_t_portov_10_gbit_rj_45:portov_10_gbit_rj_45","pf_t_portov_rj45_sfp_combo:portov_rj45_sfp_combo","pf_t_opticheskie_razyomy:opticheskie_razyomy","pf_t_slotov_sfp_100_mbit:slotov_sfp_100_mbit","pf_t_slotov_sfp_1_gbit:slotov_sfp_1_gbit","pf_t_slotov_sfp_10_gbit:slotov_sfp_10_gbit","pf_t_portov_poe_10_100_mbit:portov_poe_10_100_mbit","pf_t_portov_poe_poe_10_100_mbit:portov_poe_poe_10_100_mbit","pf_t_portov_poe_poe_10_100_1000_mbit:portov_poe_poe_10_100_1000_mbit","pf_mlt_promyshlennye_protokoly:promyshlennye_protokoly","pf_t_protokoly_layer_3:protokoly_layer_3","pf_t_ip_zashchita:ip_zashchita","pf_t_portov_25_gbit:portov_25_gbit","pf_mlt_slotov_sfp_25_gbit:slotov_sfp_25_gbit","pf_t_slotov_sfp_25_gbit:slotov_sfp_25_gbit1","pf_t_protokoly:protokoly","pf_mlt_tip_konnektora_ethernet:tip_konnektora_ethernet","pf_t_portov_rs_232_422:portov_rs_232_422","pf_t_opticheskiy_razyom:opticheskiy_razyom","pf_t_podderzhivaemye_protokoly:podderzhivaemye_protokoly","pf_mlt_posledovatelnye_porty:posledovatelnye_porty","pf_mlt_opticheskie_razemy:opticheskie_razemy","pf_mlt_polevye_protokoly:polevye_protokoly","pf_t_polevye_protokoly:polevye_protokoly1","pf_t_vsego_com_portov:vsego_com_portov","pf_t_podderzhka_os:podderzhka_os","pf_t_tag:tag","pf_mlt_podderzhka_wdm:podderzhka_wdm","pf_t_rezerviruemoe_pitanie:rezerviruemoe_pitanie"],"enableTrackingOrderRevenue":false,"enableAjaxCart":true,"ajaxCartStyle":"slide","selectOptionInProductItem":false},"search":{"enableSuggestion":true,"showSuggestionProductVendor":false,"showSuggestionProductPrice":true,"showSuggestionProductSalePrice":false,"showSuggestionProductSku":false,"showSuggestionProductImage":true,"searchPanelBlocks":{"products":{"label":"Продукты","pageSize":25,"active":true,"displayImage":true},"collections":{"label":"Разделы","pageSize":25,"active":true,"displayImage":true},"pages":{"label":"Страницы","pageSize":25,"active":true,"displayImage":true},"searchTermSuggestions":{"label":"Popular searches","type":"manually","active":false,"backup":[],"searchTermList":[]},"mostPopularProducts":{"label":"Trending products","type":"manually","active":false,"backup":[],"productList":[]}},"productAvailable":false,"suggestionBlocks":[{"type":"suggestions","label":"Популярные предложения","status":"active","number":5},{"type":"collections","label":"Разделы","status":"active","number":3},{"type":"products","label":"Продукты","status":"active","number":6},{"type":"pages","label":"Страницы","status":"active","number":3}],"searchBoxOnclick":{"recentSearch":{"label":"Последние поисковые запросы","status":true,"number":"3"},"searchTermSuggestion":{"label":"Popular searches","status":false,"data":[]},"productSuggestion":{"label":"Trending products","status":false,"data":[]}},"suggestionNoResult":{"search_terms":{"label":"Popular searches","status":false,"data":[],"backup":[],"type":"manually"},"products":{"label":"Trending products","status":false,"data":[],"backup":[],"type":"manually"}},"suggestionStyle":"style2","suggestionStyle1ProductItemType":"list","suggestionStyle1ProductPosition":"none","suggestionStyle1ProductPerRow":"1","suggestionStyle2ProductItemType":"list","suggestionStyle2ProductPosition":"right","suggestionStyle2ProductPerRow":"2","suggestionStyle3ProductItemType":"grid","suggestionStyle3ProductPosition":"right","suggestionStyle3ProductPerRow":"3","enableFuzzy":true},"backSettings":{"offSensitive":false},"actionlist":{"qvBtnBackgroundColor":"rgba(255||255||255||1)","qvBtnTextColor":"rgba(61||66||70||1)","qvBtnBorderColor":"rgba(255||255||255||1)","qvBtnHoverBackgroundColor":"rgba(61||66||70||1)","qvBtnHoverTextColor":"rgba(255||255||255||1)","qvBtnHoverBorderColor":"rgba(61||66||70||1)","atcBtnBackgroundColor":"rgba(0||0||0||1)","atcBtnTextColor":"rgba(255||255||255||1)","atcBtnBorderColor":"rgba(0||0||0||1)","atcBtnHoverBackgroundColor":"rgba(61||66||70||1)","atcBtnHoverTextColor":"rgba(255||255||255||1)","atcBtnHoverBorderColor":"rgba(61||66||70||1)","alStyle":"bc-al-style4","qvEnable":true,"atcEnable":true},"labelTranslations":{"en":{},"ru":{"refine":"Фильтр","refineMobile":"Фильтр","refineMobileCollapse":"Скрыть фильтр","clear":"Сбросить","clearAll":"Сбросить","viewMore":"Вперед","viewLess":"Назад","apply":"Применить","applyAll":"Применить все","close":"Закрыть","back":"Назад","showLimit":"Показать","collectionAll":"Все","under":"Под","above":"Над","ratingStar":"Звезд","ratingStars":"Звезд","showResult":"Показать результаты","searchOptions":"Поиск характеристики","inCollectionSearch":"Поиск по разделу","loadMore":"Показать еще {{amountProduct}} продуктов","loadMoreTotal":"{{ from }} - {{ to }} из {{ total }} продуктов","sortByOptions":{"sorting":"Сортировка","extra-sort1-descending":"По наличию","price-ascending":"По возрастанию цены","price-descending":"По убыванию цены","manual":"Рекомендуется","title-descending":"От Я до А","title-ascending":"От А до Я"},"recommendation":{"homepage-428202":"Just dropped","homepage-832452":"Best Sellers","collectionpage-024028":"Just dropped","collectionpage-770237":"Most Popular Products","productpage-674111":"Recently viewed","productpage-371471":"Frequently Bought Together","cartpage-138011":"Still interested in this?","cartpage-768034":"Similar Products"},"search":{"resultHeader":"Результаты поиска для \"{{ terms }}\"","resultNumber":"Найдено {{ count }} по запросу \"{{ terms }}\"","seeAllProducts":"В каталог","resultEmpty":"Извините, ничего не найдено по запросу \"{{ terms }}\". Возможно, что-то подойдет из этих продуктов?","resultEmptyWithSuggestion":"Извините, ничего не найдено по запросу \"{{ terms }}\". Возможно, что-то подойдет из этих продуктов?","searchTotalResult":"Показать {{ count }} результат","searchTotalResults":"Показать {{ count }} результатов","searchPanelProduct":"Продукты","searchPanelCollection":"Разделы","searchPanelPage":"Страницы"},"suggestion":{"viewAll":"Показать все результаты","didYouMean":"Возможно, вы имели ввиду: {{ terms }}?","searchBoxPlaceholder":"Поиск","suggestQuery":"Результаты поиска по запросу {{ terms }}","instantSearchSuggestionsLabel":"Популярные предложения","instantSearchCollectionsLabel":"Разделы","instantSearchProductsLabel":"Продукты","instantSearchPagesLabel":"Страницы","searchBoxOnclickRecentSearchLabel":"Последние поисковые запросы","searchBoxOnclickSearchTermLabel":"Popular searches","searchBoxOnclickProductsLabel":"Trending products","noSearchResultSearchTermLabel":"Popular searches","noSearchResultProductsLabel":"Trending products"},"error":{"noFilterResult":"Извините, по вашему запросу ничего не найдено","noSearchResult":"К сожалению, по ключевому слову нет продуктов. Попробуйте добавить или удалить пробел/тире в названии товара.","noProducts":"Извините, по вашему запросу ничего не найдено","noSuggestionResult":"Извините, ничего не найдено по запросу \"{{ terms }}\". Попробуйте добавить или удалить пробел/тире в названии товара.","noSuggestionProducts":"Извините, ничего не найдено по запросу \"{{ terms }}\""},"action_list":{"qvBtnLabel":"Быстрый просмотр","qvAddToCartBtnLabel":"Добавить в корзину","qvSaleLabel":"Акция","qvViewFullDetails":"Посмотреть подробнее","qvQuantity":"Количество","atcAvailableLabel":"Добавить в корзину","atcSelectOptionsLabel":"Выбрать опции"},"defaultTheme":{"toolbarViewAs":"Посмотреть, как","toolbarProduct":"продуктов","toolbarProducts":"продуктов","productItemFrom":"от"},"recentlyViewed":{},"mostPopular":{}}},"label":{"refine":"Фильтр","refineMobile":"Фильтр","refineMobileCollapse":"Скрыть фильтр","clear":"Сбросить","clearAll":"Сбросить","viewMore":"Вперед","viewLess":"Назад","apply":"Применить","applyAll":"Применить все","close":"Закрыть","back":"Назад","showLimit":"Показать","collectionAll":"Все","under":"Под","above":"Над","ratingStar":"Звезд","ratingStars":"Звезд","showResult":"Показать результаты","searchOptions":"Поиск характеристики","inCollectionSearch":"Поиск по разделу","loadMore":"Показать еще {{amountProduct}} продуктов","loadMoreTotal":"{{ from }} - {{ to }} из {{ total }} продуктов","sortByOptions":{"sorting":"Сортировка","extra-sort1-descending":"По наличию","price-ascending":"По возрастанию цены","price-descending":"По убыванию цены","manual":"Рекомендуется","title-descending":"От Я до А","title-ascending":"От А до Я"},"recommendation":{"homepage-428202":"Just dropped","homepage-832452":"Best Sellers","collectionpage-024028":"Just dropped","collectionpage-770237":"Most Popular Products","productpage-674111":"Recently viewed","productpage-371471":"Frequently Bought Together","cartpage-138011":"Still interested in this?","cartpage-768034":"Similar Products"},"search":{"resultHeader":"Результаты поиска для \"{{ terms }}\"","resultNumber":"Найдено {{ count }} по запросу \"{{ terms }}\"","seeAllProducts":"В каталог","resultEmpty":"Извините, ничего не найдено по запросу \"{{ terms }}\". Возможно, что-то подойдет из этих продуктов?","resultEmptyWithSuggestion":"Извините, ничего не найдено по запросу \"{{ terms }}\". Возможно, что-то подойдет из этих продуктов?","searchTotalResult":"Показать {{ count }} результат","searchTotalResults":"Показать {{ count }} результатов","searchPanelProduct":"Продукты","searchPanelCollection":"Разделы","searchPanelPage":"Страницы"},"suggestion":{"viewAll":"Показать все результаты","didYouMean":"Возможно, вы имели ввиду: {{ terms }}?","searchBoxPlaceholder":"Поиск","suggestQuery":"Результаты поиска по запросу {{ terms }}","instantSearchSuggestionsLabel":"Популярные предложения","instantSearchCollectionsLabel":"Разделы","instantSearchProductsLabel":"Продукты","instantSearchPagesLabel":"Страницы","searchBoxOnclickRecentSearchLabel":"Последние поисковые запросы","searchBoxOnclickSearchTermLabel":"Popular searches","searchBoxOnclickProductsLabel":"Trending products","noSearchResultSearchTermLabel":"Popular searches","noSearchResultProductsLabel":"Trending products"},"error":{"noFilterResult":"Извините, по вашему запросу ничего не найдено","noSearchResult":"К сожалению, по ключевому слову нет продуктов. Попробуйте добавить или удалить пробел/тире в названии товара.","noProducts":"Извините, по вашему запросу ничего не найдено","noSuggestionResult":"Извините, ничего не найдено по запросу \"{{ terms }}\". Попробуйте добавить или удалить пробел/тире в названии товара.","noSuggestionProducts":"Извините, ничего не найдено по запросу \"{{ terms }}\""},"action_list":{"qvBtnLabel":"Быстрый просмотр","qvAddToCartBtnLabel":"Добавить в корзину","qvSaleLabel":"Акция","qvViewFullDetails":"Посмотреть подробнее","qvQuantity":"Количество","atcAvailableLabel":"Добавить в корзину","atcSelectOptionsLabel":"Выбрать опции"},"defaultTheme":{"toolbarViewAs":"Посмотреть, как","toolbarProduct":"продуктов","toolbarProducts":"продуктов","productItemFrom":"от"},"recentlyViewed":{},"mostPopular":{}},"style":{"filterTitleTextColor":"","filterTitleFontSize":"","filterTitleFontWeight":"","filterTitleFontTransform":"","filterTitleFontFamily":"","filterOptionTextColor":"","filterOptionFontSize":"","filterOptionFontFamily":"","filterMobileButtonTextColor":"","filterMobileButtonFontSize":"","filterMobileButtonFontWeight":400,"filterMobileButtonFontTransform":"","filterMobileButtonFontFamily":"Open Sans","filterMobileButtonBackgroundColor":"rgba(0||135||135||1)"},"searchEmptyResultMessages":{"label":"Извините, ничего не найдено по запросу \"{{ terms }}\". Возможно, что-то подойдет из этих продуктов?"}},
+    
+    
+swatch_settings: {
+  
+},
+     
+default_sort_order: {"search":"","all":"extra-sort1-descending","397945241821":"manual","397945274589":"manual","397945209053":"manual","397945438429":"manual","398059143389":"manual","397946093789":"manual","408888443101":"manual"},
+
+  };
+  function mergeObject(obj1, obj2){
+    var obj3 = {};
+    for (var attr in obj1) { obj3[attr] = obj1[attr]; }
+    for (var attr in obj2) { obj3[attr] = obj2[attr]; }
+    return obj3;
+  }
+  if (typeof boostPFSConfig == 'undefined') {
+    boostPFSConfig = {};
+  }
+  if (typeof boostPFSAppConfig != 'undefined') {
+    boostPFSConfig = mergeObject(boostPFSConfig, boostPFSAppConfig);
+  }
+  if (typeof boostPFSThemeConfig != 'undefined') {
+    boostPFSConfig = mergeObject(boostPFSConfig, boostPFSThemeConfig);
+  }
+</script>
+
+<!-- Include Resources --><script defer="" src="./Что такое NAT_ Особенности в MOXA_files/boost-pfs-core-instant-search.js.Без названия"></script>
+  <script defer="" src="./Что такое NAT_ Особенности в MOXA_files/boost-pfs-instant-search.js.Без названия"></script><!-- Initialize App -->
+<script defer="" src="./Что такое NAT_ Особенности в MOXA_files/boost-pfs-init.js.Без названия"></script>
+
+
+
+  <!-- Instant search no result JSON data -->
+  <script type="application/json" id="boost-pfs-instant-search-products-not-found-json">
+	{
+		"search_terms": [],
+		"products": []
+	}
+</script>
+
+<!--end-boost-pfs-js-->
+    
+
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "/blogs/articles/chto-takoe-nat-osobennosti-v-moxa",
+    "articleSection": "Статьи и обзоры",
+    "keywords": "series_SECURE_SW, Статьи",
+    "headline": "Что такое NAT? Особенности в MOXA",
+    "description": "Особенности настройки правил трансляции адресов на маршрутизаторах серии EDR.",
+    "dateCreated": "2021-12-28T13:45:15",
+    "datePublished": "2019-11-14T14:00:00",
+    "dateModified": "2019-11-14T14:00:00",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://moxa.pro/cdn/shop/articles/NAT_MOXA_1024x.jpg?v=1640784729",
+      "image": "https://moxa.pro/cdn/shop/articles/NAT_MOXA_1024x.jpg?v=1640784729",
+      "name": "Что такое NAT? Особенности в MOXA",
+      "width": "1024",
+      "height": "1024"
+    },
+    "author": {
+      "@type": "Person",
+      "name": " ",
+      "givenName": null,
+      "familyName": null
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MOXA.pro"
+    },
+    "commentCount": 0,
+    "comment": []
+  }
+  </script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MOXA.pro",
+    "url": "https://moxa.pro"
+  }
+</script>    
+
+<link rel="stylesheet" type="text/css" href="./Что такое NAT_ Особенности в MOXA_files/cookieconsent.min.css">
+<script src="./Что такое NAT_ Особенности в MOXA_files/cookieconsent.min.js.Без названия" data-cfasync="false"></script>
+<script>
+window.addEventListener('load', function(){
+  window.cookieconsent.initialise({
+   revokeBtn: "<div class='cc-revoke'></div>",
+   type: "opt-in",
+   position: "top",
+   static: true,
+   theme: "edgeless",
+   palette: {
+       popup: {
+           background: "#008787",
+           text: "#fff"
+        },
+       button: {
+           background: "#808080",
+           text: "#fff"
+        }
+    },
+   content: {
+       message: "Оставаясь на сайте, вы соглашаетесь с Положением об обработке персональных данных.",
+       link: "Подробнее",
+       allow: "Принять",
+       deny: "",
+       href: "https://moxa.pro/pages/privacy-policy"
+    },
+    onInitialise: function(status) {
+      if(status == cookieconsent.status.allow) myScripts();
+    },
+    onStatusChange: function(status) {
+      if (this.hasConsented()) myScripts();
+    }
+  })
+});
+
+function myScripts() {
+}
+</script>
+  
+<!-- Begin Talk-Me {literal} -->
+<script>
+    (function(){(function c(d,w,m,i) {
+        window.supportAPIMethod = m;
+        var s = d.createElement('script');
+        s.id = 'supportScript'; 
+        var id = 'a5ca11d4af58fe333ae1650057e9b6a6';
+        s.src = (!i ? 'https://lcab.talk-me.ru/support/support.js' : 'https://static.site-chat.me/support/support.int.js') + '?h=' + id;
+        s.onerror = i ? undefined : function(){c(d,w,m,true)};
+        w[m] = w[m] || function(){(w[m].q = w[m].q || []).push(arguments);};
+        (d.head || d.body).appendChild(s);
+    })(document,window,'TalkMe')})();
+</script>
+<!-- {/literal} End Talk-Me -->
+<!-- Интеграция MeTalk и SendSay -->
+<script>
+TalkMe("getContacts", function(data){
+if (!supportStorage.get("subscribedAtSendSay")){
+if (data.email && data.custom.ezhemesyachnayarassyilka != null && data.custom.ezhemesyachnayarassyilka.length){
+$(function(){
+$('body').append('<iframe id="sendsay_form_iframe" name="sendsay_form_iframe" style="display:none;"></iframe>');
+$('body').append('<form id="sendsay_form" action="https://sendsay.ru/form/x_1459940606553229/3/" method="post" target="sendsay_form_iframe" ><input type="hidden" name="_member_email" value="'+data.email+'"></form>');
+$('#sendsay_form').submit();
+supportStorage.set("subscribedAtSendSay", 1);
+});
+}
+}
+});
+</script>
+          
+
+
+<div id="WebPixelsManagerSandboxContainer" aria-hidden="true" tabindex="-1" style="height: 0px !important; width: 0px !important; position: fixed !important; visibility: hidden !important; overflow: hidden !important; z-index: -100 !important; margin: 0px !important; padding: 0px !important; border: 0px !important;"><iframe src="./Что такое NAT_ Особенности в MOXA_files/chto-takoe-nat-osobennosti-v-moxa.html" id="web-pixel-sandbox-CUSTOM-shopify-custom-pixel-LAX-7265dc79wdf6f2cd2p26523560m583183dc" name="web-pixel-sandbox-CUSTOM-shopify-custom-pixel-LAX-7265dc79wdf6f2cd2p26523560m583183dc" sandbox="allow-scripts allow-forms" tabindex="-1" aria-hidden="true" style="height: 0px !important; width: 0px !important; visibility: hidden !important;"></iframe></div><script type="text/javascript" id="">(function(a,e,f,g,b,c,d){a[b]=a[b]||function(){(a[b].a=a[b].a||[]).push(arguments)};a[b].l=1*new Date;c=e.createElement(f);d=e.getElementsByTagName(f)[0];c.async=1;c.src=g;d.parentNode.insertBefore(c,d)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(32801930,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0,webvisor:!0});</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/32801930" style="position:absolute; left:-9999px;" alt=""></div></noscript><div class="boost-pfs-search-suggestion-wrapper boost-pfs-search-suggestion-mobile-style1 boost-pfs-search-suggestion-column-2-non-fullwidth boost-pfs-search-suggestion-product-position-right boost-pfs-search-suggestion-product-item-type-list boost-pfs-search-suggestion-products-per-row-2" id="boost-pfs-search-suggestion-0" data-search-box-id="boost-pfs-search-box-0" role="listbox">
+				<div class="boost-pfs-search-suggestion-popover" data-direction="left"></div>
+			<div tabindex="0" class="boost-pfs-search-suggestion" style="display: none;"></div></div><script type="text/javascript" id="">for(var c=document.getElementsByTagName("a"),i=0;i<c.length;i++)-1!==c[i].href.indexOf("mailto")&&c[i].addEventListener("copy",function(a){dataLayer.push({event:"copyText"})});</script><script type="text/javascript" async="" crossorigin="anonymous" defer="" charset="utf-8" src="./Что такое NAT_ Особенности в MOXA_files/modern.support.js.Без названия"></script><div style="position: absolute; left: 0px; top: 0px;"></div><script type="text/javascript" id="">!function(){var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="https://vk.com/js/api/openapi.js?168";a.onload=function(){VK.Retargeting.Init("VK-RTRG-441382-dHQuw");VK.Retargeting.Hit()};document.head.appendChild(a)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-441382-dHQuw" style="position:fixed; left:-999px;" alt=""></noscript></body></html>
