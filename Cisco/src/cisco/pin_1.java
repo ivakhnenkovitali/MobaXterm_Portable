@@ -1,4 +1,4 @@
 package cisco;
 
-public class pin_1 {
+public class pin_1   {
 }
