@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>Lab: User ID controlled by request parameter | Web Security Academy</title>
+        <meta content="This lab has a horizontal privilege escalation vulnerability on the user account page. To solve the lab, obtain the API key for the user carlos and submit ..." name="description">
+        <!-- Twitter data -->
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lab: User ID controlled by request parameter | Web Security Academy">
+    <meta name="twitter:description" content="This lab has a horizontal privilege escalation vulnerability on the user account page. To solve the lab, obtain the API key for the user carlos and submit ...">
+<meta name="twitter:image" content="https://portswigger.net/content/images/logos/academy-twittercard.png">
+    <meta name="twitter:site" content="@WebSecAcademy">
+
+<!-- Open Graph data -->
+<meta property="og:title" content="Lab: User ID controlled by request parameter | Web Security Academy" />
+    <meta property="og:description" content="This lab has a horizontal privilege escalation vulnerability on the user account page. To solve the lab, obtain the API key for the user carlos and submit ...">
+<meta property="og:url" content="https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter" />
+<meta property="og:image" content="https://portswigger.net/content/images/logos/academy-twittercard.png"/>
+<meta property="og:type" content="website"/>
+<link rel="canonical" href="https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter" />
+<link rel="icon" href="/content/images/logos/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/content/images/logos/apple-touch-icon.png">
+        <link href="/content/pswebsecacademy.css" rel="stylesheet" type="text/css">
+        <link rel="preload" href="/content/fonts/ps-icons-small/ps-icons-small.woff?td2uot" as="font" crossorigin="anonymous">
+<link rel="preload" href="/content/fonts/ps-main/ps-icons.woff?l1la2n" as="font" crossorigin="anonymous">
+        
+<script nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur">
+    const dimensionName = "dimension2";
+    const userRef = "";
+</script>
+
+
+
+<script nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur">
+
+    (function(window, document, dataLayerName, id) {
+    function stgCreateCookie(a,b,c){var d="";if(c){var e=new Date;e.setTime(e.getTime()+24*c*60*60*1e3),d=";expires="+e.toUTCString()}document.cookie=a+"="+b+d+"; path=/"}
+    var isStgDebug=(window.location.href.match("stg_debug")||document.cookie.match("stg_debug"))&&!window.location.href.match("stg_disable_debug");
+    stgCreateCookie("stg_debug",isStgDebug?1:"",isStgDebug?14:-1);
+    var qP=[];dataLayerName!=="dataLayer"&&qP.push("data_layer_name="+dataLayerName),isStgDebug&&qP.push("stg_debug");
+    var qPString=qP.length>0?("?"+qP.join("&")):"";
+    document.write('<nonce-script src="https://ps.containers.piwik.pro/'+id+'.sync.js' + qPString + '" nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur"></' + 'nonce-script>');
+    })(window, document, 'dataLayer', '287552c2-4917-42e0-8982-ba994a2a73d7');
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        customerId : '',
+    });
+</script> 
+    </head>
+    <body class="theme-">
+        
+
+
+<script nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur">
+(function(window, document, dataLayerName, id) {
+    window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});
+    var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
+    function stgCreateCookie(a,b,c){var d="";if(c){var e=new Date;e.setTime(e.getTime()+24*c*60*60*1e3),d=";expires="+e.toUTCString()}document.cookie=a+"="+b+d+"; path=/"}
+    var isStgDebug=(window.location.href.match("stg_debug")||document.cookie.match("stg_debug"))&&!window.location.href.match("stg_disable_debug");
+    stgCreateCookie("stg_debug",isStgDebug?1:"",isStgDebug?14:-1);
+    var qP=[];dataLayerName!=="dataLayer"&&qP.push("data_layer_name="+dataLayerName),tags.nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur",isStgDebug&&qP.push("stg_debug");
+    var qPString=qP.length>0?("?"+qP.join("&")):"";
+    tags.async=!0,tags.src="https://ps.containers.piwik.pro/"+id+".js"+qPString,
+    scripts.parentNode.insertBefore(tags,scripts);
+    !function(a,n,i){a[n]=a[n]||{};for(var c=0;c<i.length;c++)!function(i){a[n][i]=a[n][i]||{},a[n][i].api=a[n][i].api||function(){
+    var a=[].slice.call(arguments,0);"string"==typeof a[0]&&window[dataLayerName].push({event:n+"."+i+":"+a[0],parameters:[].slice.call(arguments,1)})}}(i[c])}(window,"ppms",["tm","cm"]);
+    })(window, document, 'dataLayer', '287552c2-4917-42e0-8982-ba994a2a73d7');
+</script>
+        
+
+
+        <header class="page-header" id="top">
+            <div class="container">
+    <a class="logo" href="/"></a>
+    <div class="header-right">
+        <div class="login-buttons">
+                <a class="button-orange-small" href="/users">Login</a>
+        </div>
+
+
+    <input type="checkbox" id="hamburger-mobile" class="hamburger-input-mobile">
+    <input type="radio" id="hamburger-desktop" class="hamburger-input-desktop" name="mega-nav-input">
+    <div class="hamburger-menu-mobile">
+        <label class="hamburger-menu-label header-hidden" for="hamburger-mobile">
+            <span class="hamburger-layers"></span>
+        </label>
+    </div>
+    <div class="mega-nav">
+        <input type="radio" id="mega-nav-close" class="mega-nav-input-close" name="mega-nav-input">
+        <input type="radio" id="mega-nav-label-1" class="mega-nav-input-1" name="mega-nav-input">
+        <input type="radio" id="mega-nav-label-2" class="mega-nav-input-2" name="mega-nav-input">
+        <input type="radio" id="mega-nav-label-6" class="mega-nav-input-6" name="mega-nav-input">
+        <input type="radio" id="mega-nav-label-7" class="mega-nav-input-7" name="mega-nav-input">
+
+        <label for="mega-nav-close" class="mega-nav-close"></label>
+
+        <label class="mega-nav-label mega-nav-label-1" for="mega-nav-label-1">
+            <span class="mega-nav-text">Products</span>
+            <span class="icon-arrow-head-down"></span>
+        </label>
+        <label class="mega-nav-label mega-nav-label-2" for="mega-nav-label-2">
+            <span class="mega-nav-text">Solutions</span>
+            <span class="icon-arrow-head-down"></span>
+        </label>
+        <a class="mega-nav-link" href="/research"><span class="mega-nav-text">Research</span></a>
+        <a class="mega-nav-link" href="/web-security"><span class="mega-nav-text">Academy</span></a>
+        <label class="mega-nav-label mega-nav-label-6" for="mega-nav-label-6">
+            <span class="mega-nav-text">Support</span>
+            <span class="icon-arrow-head-down"></span>
+        </label>
+
+        <label class="mega-nav-label mega-nav-label-7 header-hidden" for="mega-nav-label-7">
+            <span class="mega-nav-text">Company</span>
+            <span class="icon-arrow-head-down"></span>
+        </label>
+        <div class="hamburger-menu-desktop">
+            <label class="hamburger-menu-label header-show" for="hamburger-desktop">
+                <span class="hamburger-layers"></span>
+            </label>
+            <div>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-1" href="/customers"><span class="mega-nav-text">Customers</span></a>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-3" href="/about"><span class="mega-nav-text">About</span></a>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-4" href="/blog"><span class="mega-nav-text">Blog</span></a>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-5" href="/careers"><span class="mega-nav-text">Careers</span></a>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-6" href="/legal"><span class="mega-nav-text">Legal</span></a>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-7" href="/contact"><span class="mega-nav-text">Contact</span></a>
+                <a class="hamburger-menu-desktop-link hamburger-menu-desktop-link-8" href="/support/reseller-faqs"><span class="mega-nav-text">Resellers</span></a>
+            </div>
+        </div>
+
+        <a class="mega-nav-link header-hidden" href="/users/youraccount"><span class="mega-nav-text">My account</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-1" href="/customers"><span class="mega-nav-text">Customers</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-3" href="/about"><span class="mega-nav-text">About</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-4" href="/blog"><span class="mega-nav-text">Blog</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-5" href="/careers"><span class="mega-nav-text">Careers</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-6" href="/legal"><span class="mega-nav-text">Legal</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-7" href="/contact"><span class="mega-nav-text">Contact</span></a>
+        <a class="hamburger-menu-link hamburger-menu-link-8" href="/support/reseller-faqs"><span class="mega-nav-text">Resellers</span></a>
+
+        <div class="mega-nav-container">
+
+            <div class="mega-nav-content mega-nav-content-1">
+                <div class="section-white-medium-no-padding">
+                    <div class="container-columns-66-percent-right">
+                        <div>
+                            <a href="/burp/enterprise" class="link-block-white">
+                                <img src="/content/images/svg/icons/enterprise.svg" alt="Burp Suite Enterprise Edition">
+                                <span><strong>Burp Suite Enterprise Edition</strong></span>
+                                <span>The enterprise-enabled dynamic web vulnerability scanner.</span>
+                            </a>
+
+                            <a href="/burp/pro" class="link-block-white">
+                                <img src="/content/images/svg/icons/professional.svg" alt="Burp Suite Professional">
+                                <span><strong>Burp Suite Professional</strong></span>
+                                <span>The world's #1 web penetration testing toolkit.</span>
+                            </a>
+
+                            <a href="/burp/communitydownload" class="link-block-white">
+                                <img src="/content/images/svg/icons/community.svg" alt="Burp Suite Community Edition">
+                                <span><strong>Burp Suite Community Edition</strong></span>
+                                <span>The best manual tools to start web security testing.</span>
+                            </a>
+
+                            <a href="/burp/dastardly" class="link-block-white">
+                                <img src="/mega-nav/images/dastardly.svg" alt="Dastardly, from Burp Suite">
+                                <span><strong>Dastardly, from Burp Suite</strong></span>
+                                <span>Free, lightweight web application security scanning for CI/CD.</span>
+                            </a>
+
+                            <a href="/burp" class="chevron-after">View all product editions</a>
+                        </div>
+
+                        <div>
+                            <div class="container-cards-lists-white">
+                                <a href="/burp/vulnerability-scanner">
+                                    <p><strong>Burp Scanner</strong></p>
+                                    <p>Burp Suite's web vulnerability scanner</p>
+                                    <img src="/mega-nav/images/burp-suite-scanner.jpg" alt="Burp Suite's web vulnerability scanner'">
+                                </a>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="mega-nav-content mega-nav-content-2">
+                <div class="section-white-medium-no-padding">
+                    <div class="container-columns-66-percent-right">
+                        <div>
+                            <div class="container-columns">
+                                <a href="/solutions/attack-surface-visibility" class="link-block-white">
+                                    <span><strong>Attack surface visibility</strong></span>
+                                    <span>Improve security posture, prioritize manual testing, free up time.</span>
+                                </a>
+                                <a href="/solutions/ci-driven-scanning" class="link-block-white">
+                                    <span><strong>CI-driven scanning</strong></span>
+                                    <span>More proactive security - find and fix vulnerabilities earlier.</span>
+                                </a>
+                                <a href="/solutions" class="link-block-white">
+                                    <span><strong>Application security testing</strong></span>
+                                    <span>See how our software enables the world to secure the web.</span>
+                                </a>
+                                <a href="/solutions/devsecops" class="link-block-white">
+                                    <span><strong>DevSecOps</strong></span>
+                                    <span>Catch critical bugs; ship more secure software, more quickly.</span>
+                                </a>
+
+                                <a href="/solutions/penetration-testing" class="link-block-white">
+                                    <span><strong>Penetration testing</strong></span>
+                                    <span>Accelerate penetration testing - find more bugs, more quickly.</span>
+                                </a>
+                                <a href="/solutions/automated-security-testing" class="link-block-white">
+                                    <span><strong>Automated scanning</strong></span>
+                                    <span>Scale dynamic scanning. Reduce risk. Save time/money.</span>
+                                </a>
+
+                                <a href="/solutions/bug-bounty-hunting" class="link-block-white">
+                                    <span><strong>Bug bounty hunting</strong></span>
+                                    <span>Level up your hacking and earn more bug bounties.</span>
+                                </a>
+                                <a href="/solutions/compliance" class="link-block-white">
+                                    <span><strong>Compliance</strong></span>
+                                    <span>Enhance security monitoring to comply with confidence.</span>
+                                </a>
+                            </div>
+                            <a href="/solutions" class="chevron-after">View all solutions</a>
+                        </div>
+
+                        <div>
+                            <div class="container-cards-lists-white">
+                                <a href="/burp/enterprise/resources/enterprise-edition-vs-professional">
+                                    <p><strong>Product comparison</strong></p>
+                                    <p>What's the difference between Pro and Enterprise Edition?</p>
+                                    <img src="/mega-nav/images/burp-suite.jpg" alt="Burp Suite Professional vs Burp Suite Enterprise Edition">
+                                </a>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="mega-nav-content mega-nav-content-6">
+                <div class="section-white-medium-no-padding">
+                    <div class="container-columns-66-percent-right">
+                        <div>
+                            <div class="container-columns">
+                                <a href="/support" class="link-block-white">
+                                    <span><strong>Support Center</strong></span>
+                                    <span>Get help and advice from our experts on all things Burp.</span>
+                                </a>
+                                <a href="/burp/documentation" class="link-block-white">
+                                    <span><strong>Documentation</strong></span>
+                                    <span>Tutorials and guides for Burp Suite.</span>
+                                </a>
+                                <a href="/burp/documentation/desktop/getting-started" class="link-block-white">
+                                    <span><strong>Get Started - Professional</strong></span>
+                                    <span>Get started with Burp Suite Professional.</span>
+                                </a>
+                                <a href="/burp/documentation/enterprise/getting-started" class="link-block-white">
+                                    <span><strong>Get Started - Enterprise</strong></span>
+                                    <span>Get started with Burp Suite Enterprise Edition.</span>
+                                </a>
+                                <a href="https://forum.portswigger.net/" class="link-block-white">
+                                    <span><strong>User Forum</strong></span>
+                                    <span>Get your questions answered in the User Forum.</span>
+                                </a>
+                                <a href="/burp/releases" class="link-block-white">
+                                    <span><strong>Downloads</strong></span>
+                                    <span>Download the latest version of Burp Suite.</span>
+                                </a>
+                            </div>
+                            <a href="/support" class="chevron-after">Visit the Support Center</a>
+                        </div>
+
+                        <div>
+                            <div class="container-cards-lists-white">
+                                <a href="/burp/releases">
+                                    <p><strong>Downloads</strong></p>
+                                    <p>Download the latest version of Burp Suite.</p>
+                                    <img src="/mega-nav/images/latest-burp-suite-software-download.jpg" alt="The latest version of Burp Suite software for download">
+                                </a>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+</div>
+        </header>
+        
+            <nav class="navigation-top">
+                <input type="checkbox" id="nav-main-enterprise">
+                <label for="nav-main-enterprise">
+                    <span>Academy home</span>
+                    <span class="icon-arrow-head-down"></span>
+                </label>
+                <ul>
+                    <li><a href="https://portswigger.net/web-security/index.html">Dashboard</a></li>
+                    <li><a href="https://portswigger.net/web-security/learning-paths">Learning paths</a></li>
+                    <li>
+                        <input type="checkbox" id="nav-main-academy-topics">
+                        <label for="nav-main-academy-topics">
+                            <span>Latest topics</span>
+                            <span class="icon-arrow-head-down"></span>
+                        </label>
+                        <div>
+                            <a href="/web-security/llm-attacks">Web LLM attacks</a>
+                            <a href="/web-security/api-testing">API testing</a>
+                            <a href="/web-security/nosql-injection">NoSQL injection</a>
+                            <a href="/web-security/race-conditions">Race conditions</a>
+                            <a href="/web-security/graphql">GraphQL API vulnerabilities</a>
+                            <a href="/web-security/all-topics">View all topics</a>
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="nav-main-academy-all-content">
+                        <label for="nav-main-academy-all-content">
+                            <span>All content</span>
+                            <span class="icon-arrow-head-down"></span>
+                        </label>
+                        <div>
+                            <a href="/web-security/all-labs">All labs</a>
+                            <a href="/web-security/all-topics">All topics</a>
+                            <a href="/web-security/mystery-lab-challenge">Mystery labs</a>
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="nav-main-academy-hall-of-fame">
+                        <label for="nav-main-academy-hall-of-fame">
+                            <span>Hall of Fame</span>
+                            <span class="icon-arrow-head-down"></span>
+                        </label>
+                        <div>
+                            <a href="https://portswigger.net/web-security/hall-of-fame">Leaderboard</a>
+                            <a href="https://portswigger.net/web-security/getting-started/kamil-vavra/index.html">Interview - Kamil Vavra</a>
+                            <a href="https://portswigger.net/web-security/getting-started/johnny-villarreal/index.html">Interview - Johnny Villarreal</a>
+                            <a href="https://portswigger.net/web-security/getting-started/andres-rauschecker/index.html">Interview - Andres Rauschecker</a>
+                        </div>
+                    </li>
+                    <li><a href="https://portswigger.net/web-security/getting-started/index.html">Get started</a></li>
+                    <li>
+                        <input type="checkbox" id="nav-main-academy-certification">
+                        <label for="nav-main-academy-certification">
+                             <span>Get certified</span>
+                             <span class="icon-arrow-head-down"></span>
+                        </label>
+                        <div>
+                             <a href="https://portswigger.net/web-security/certification/index.html">Get certified</a>
+                             <a href="https://portswigger.net/web-security/certification/how-to-prepare/index.html">How to prepare</a>
+                             <a href="https://portswigger.net/web-security/certification/how-it-works/index.html">How it works</a>
+                             <a href="https://portswigger.net/web-security/certification/practice-exam/index.html">Practice exam</a>
+                             <a href="https://portswigger.net/web-security/certification/exam-hints-and-guidance/index.html">Exam hints and guidance</a>
+                             <a href="https://portswigger.net/web-security/certification/how-it-works/index.html#what-the-exam-involves">What the exam involves</a>
+                             <a href="https://portswigger.net/web-security/certification/frequently-asked-questions/index.html">FAQs</a>
+                             <a href="https://portswigger.net/web-security/certification#validate-your-certification">Validate your certification</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        
+        <div class="wrapper-large">
+            <div class="container-academy">
+                
+                <input class="nav-lhs-toggle-input" type="checkbox" id="nav-lhs-toggle">
+                <aside class="nav-lhs" id="tree-nav" tree-nav-version="221">
+                    <nav class="nav-lhs-scrollable">
+                    <label class="nav-lhs-toggle-label" for="nav-lhs-toggle"></label> 
+                    
+
+        <a class="nav-back" href="/web-security/all-topics">
+            <span class="icon-arrow-head-left"></span>
+            Back to all topics
+        </a>
+        <input type="checkbox" id="nav-main-id">
+        <label class="nav-label" for="nav-main-id">
+            <span class="icon-arrow-head-down"></span>
+        </label>
+        <h3>Access control</h3>
+        <ul>
+            <li>
+                <input type="checkbox" id="sub-nav-id-0">
+                <label for="sub-nav-id-0">
+                    <a href="/web-security/access-control#what-is-access-control">What is access control?</a>
+                    <span class="icon-arrow-head-down"></span>
+                </label>
+                <ul>
+                    <li><a href="/web-security/access-control#vertical-access-controls">Vertical access controls</a></li>
+                    <li><a href="/web-security/access-control#horizontal-access-controls">Horizontal access controls</a></li>
+                    <li><a href="/web-security/access-control#context-dependent-access-controls">Context-dependent access controls</a></li>
+                </ul>
+            </li>
+            <li>
+                <input type="checkbox" id="sub-nav-id-1">
+                <label for="sub-nav-id-1">
+                    <a href="/web-security/access-control#vertical-privilege-escalation">Vertical privilege escalation</a>
+                    <span class="icon-arrow-head-down"></span>
+                </label>
+                <ul>
+                    <li><a href="/web-security/access-control#unprotected-functionality">Unprotected functionality</a></li>
+                    <li><a href="/web-security/access-control#parameter-based-access-control-methods">Parameter-based access control</a></li>
+                    <li><a href="/web-security/access-control#broken-access-control-resulting-from-platform-misconfiguration">Platform misconfiguration</a></li>
+                    <li><a href="/web-security/access-control#broken-access-control-resulting-from-url-matching-discrepancies">URL-matching discrepancies</a></li>
+                </ul>
+            </li>
+            <li><a href="/web-security/access-control#horizontal-privilege-escalation">Horizontal privilege escalation</a></li>
+            <li><a href="/web-security/access-control#horizontal-to-vertical-privilege-escalation">Horizontal to vertical privilege escalation</a></li>
+            <li>
+                <input type="checkbox" id="sub-nav-id-4">
+                <label for="sub-nav-id-4">
+                    <a href="/web-security/access-control/idor">Insecure direct object references (IDOR)</a>
+                    <span class="icon-arrow-head-down"></span>
+                </label>
+                <ul>
+                    <li><a href="/web-security/access-control/idor#idor-vulnerability-with-direct-reference-to-database-objects">Direct references to database objects</a></li>
+                    <li><a href="/web-security/access-control/idor#idor-vulnerability-with-direct-reference-to-static-files">Direct references to static files</a></li>
+                </ul>
+            </li>
+            <li><a href="/web-security/access-control#access-control-vulnerabilities-in-multi-step-processes">Vulnerabilities in multi-step processes</a></li>
+            <li><a href="/web-security/access-control#referer-based-access-control">Vulnerabilities in Referer-based controls</a></li>
+            <li><a href="/web-security/access-control#location-based-access-control">Vulnerabilities in location-based controls</a></li>
+            <li><a href="/web-security/access-control#how-to-prevent-access-control-vulnerabilities">Preventing</a></li>
+            <li><a href="/web-security/all-labs#access-control-vulnerabilities">View all access control labs</a></li>
+        </ul>
+    
+                    </nav>
+                </aside>
+                <main>
+                    
+
+
+
+<ul class="breadcrumb-list" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemscope itemtype="http://schema.org/Thing" itemprop="item" href="/web-security"><span itemprop="name">Web Security Academy</span></a><meta itemprop="position" content="1" /></li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemscope itemtype="http://schema.org/Thing" itemprop="item" href="/web-security/access-control"><span itemprop="name">Access control</span></a><meta itemprop="position" content="2" /></li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemscope itemtype="http://schema.org/Thing" itemprop="item" href="/web-security/access-control/lab-user-id-controlled-by-request-parameter"><span itemprop="name">Lab</span></a><meta itemprop="position" content="3" /></li></ul>    <div class="section theme-white">
+
+        <h1 class="heading-2">Lab: User ID controlled by request parameter </h1><div class="container-columns">
+        
+
+        <p class="widget-container-labelevel">
+            <span class="label-light-green-small">APPRENTICE</span>
+        </p>
+
+<div class="share-right">
+    <input id="share-button-right" type="checkbox">
+    <ul class="share-right-ul">
+        <li>
+            <a href="https://twitter.com/share?url=https%3A%2F%2Fportswigger.net%2Fweb-security%2Faccess-control%2Flab-user-id-controlled-by-request-parameter" target="_blank">
+                <span class="icon-twitter"></span>
+            </a>
+        </li>
+        <li>
+            <a href="https://api.whatsapp.com/send?text=https%3A%2F%2Fportswigger.net%2Fweb-security%2Faccess-control%2Flab-user-id-controlled-by-request-parameter" target="_blank">
+                <span class="icon-whatsapp"></span>
+            </a>
+        </li>
+        <li>
+            <a href="https://reddit.com/submit?url=https%3A%2F%2Fportswigger.net%2Fweb-security%2Faccess-control%2Flab-user-id-controlled-by-request-parameter" target="_blank">
+                <span class="icon-reddit-dark"></span>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.linkedin.com/sharing/share-offsite?url=https%3A%2F%2Fportswigger.net%2Fweb-security%2Faccess-control%2Flab-user-id-controlled-by-request-parameter" target="_blank">
+                <span class="icon-linkedin"></span>
+            </a>
+        </li>
+        <li>
+            <a href="mailto:?subject=https%3A%2F%2Fportswigger.net%2Fweb-security%2Faccess-control%2Flab-user-id-controlled-by-request-parameter&amp;body=https%3A%2F%2Fportswigger.net%2Fweb-security%2Faccess-control%2Flab-user-id-controlled-by-request-parameter">
+                <span class="icon-email"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/research/rss">
+                <span class="icon-rss"></span>
+            </a>
+        </li>
+    </ul>
+
+    <label class="share-button" for="share-button-right">
+        <span class="icon-share"></span>
+    </label>
+</div></div><p>
+            This lab has a horizontal privilege escalation vulnerability on the user account page.
+        </p><p>
+			To solve the lab, obtain the API key for the user <code>carlos</code> and submit it as the solution.
+        </p><p>
+            You can log in to your own account using the following credentials: <code>wiener:peter</code>
+        </p>
+
+    <div class="container-buttons-left">
+        <a class="button-orange" href="/academy/labs/launch/cf2d0a74362ee20a8f6ffb1028e3b44fee9ae125f418ed15832e4a8a2073bff9?referrer=%2fweb-security%2faccess-control%2flab-user-id-controlled-by-request-parameter" target="_blank">
+            <span class="icon-erlenmeyer"></span>ACCESS THE LAB
+        </a>
+    </div>
+    <noscript><p class="no-script-lab-warning">Launching labs may take some time, please hold on while we build your environment.</p></noscript>
+
+
+<div class="hidden pageloadingmask">
+    <div class="cube-spin-canvas">
+    <div class="cube-spin">
+        <div class="face face--ft"></div>
+        <div class="face face--bk"></div>
+        <div class="face face--lt"></div>
+        <div class="face face--rt"></div>
+        <div class="face face--tp"></div>
+        <div class="face face--bt"></div>
+    </div>
+</div>
+</div><div class="component-solution expandable-container">
+            
+            
+		<details><summary><h4><span class="icon-bulb"></span> Solution</h4></summary><div class="content"><div>
+                <ol>
+                    <li>
+                        Log in using the supplied credentials and go to your account page.
+                    </li>
+                    <li>
+                        Note that the URL contains your username in the &quot;id&quot; parameter.
+                    </li>
+                    <li>
+                        Send the request to Burp Repeater.
+                    </li>
+                    <li>
+                        Change the &quot;id&quot; parameter to <code>carlos</code>.
+                    </li>
+                    <li>
+                        Retrieve and submit the API key for <code>carlos</code>.
+                    </li>
+                </ol>
+            </div></div></details></div><div class="component-solution expandable-container">
+            
+            
+            
+        <details><summary><h4><span class="icon-bulbs"></span> Community solutions</h4></summary><div class="content"><div>
+                <h5>Rana Khalil</h5>
+                <div class="youtube-wrapper">
+                    <iframe src="https://www.youtube.com/embed/-VaKuNDMkR8?origin=https://portswigger.net&rel=0" allowfullscreen></iframe>
+                </div>
+            </div><div>
+                <h5>Michael Sommer (no audio)</h5>
+                <div class="youtube-wrapper">
+                    <iframe src="https://www.youtube.com/embed/pv5PfMbe_7k?origin=https://portswigger.net&rel=0" allowfullscreen></iframe>
+                </div>
+            </div></div></details></div>
+        
+        
+    <div class="footer">
+        <div class="margin-bottom-medium section-no-padding theme-enterprise-2">
+            <h2 class="text-center">Register for free to track your learning progress</h2>
+        </div>
+        <div class="section-no-padding theme-enterprise-2">
+            <div class="container-columns-vertically-centered">
+                <div class="container-small text-right">
+                    <img alt="The benefits of working through PortSwigger's Web Security Academy" src="/content/images/vulnerabilities/web-security-academy-footer.png">
+                </div>
+                <div class="section-small text-left">
+                    <ul class="unordered-list-vertical-ticks-small">
+                        <li>
+                            <p>Practise exploiting vulnerabilities on realistic targets.</p>
+                        </li>
+                        <li>
+                            <p>Record your progression from Apprentice to Expert.</p>
+                        </li>
+                        <li>
+                            <p>See where you rank in our Hall of Fame.</p>
+                        </li>
+                    </ul>
+                    
+<form action="/users/register" class="recaptchaloadingmask text-left" id="RegistrationWidget-C42D84EE3E358CB04892FD29A9E2EE69" method="post"><input type="hidden" name="RequestVerificationToken" value="B94924FB071BA3D094997809D8D5C76F021873F8070B189C336AF8A8CA1982D09D7EB001BA637EE5C3908EDEA1B902DCD511371B7B11B753E6ED9532FDCAF678">        <div class="form-small disable-no-recaptcha">
+            <div class="font-small-error hidden">
+                <span class="icon-alert-white"></span>
+                <span class="font-small-error-text"></span>
+            </div>
+            <label>
+                <input name="EmailAddress" placeholder="Enter your email" type="email">
+                <button class="button-orange" type="submit">
+                    <span>REGISTER</span>
+                </button>
+            </label>
+        </div>
+    <div id="Recaptcha-C42D84EE3E358CB04892FD29A9E2EE69" class="recaptcha-div">
+            <div class="recaptcha-inner">
+                <div class="hidden" id="NoRecaptcha-C42D84EE3E358CB04892FD29A9E2EE69">
+                    
+
+    <div class="notify-inline no-padding-bottom  error">
+        <div class="notify-logo icon-error"></div>
+        <div class="notify-message">
+            As we use reCAPTCHA, you need to be able to access Google's servers to use this function.
+        </div>
+    </div>
+
+                </div>
+
+                <input id="RecaptchaToken-C42D84EE3E358CB04892FD29A9E2EE69" name="RecaptchaToken" type="hidden" value="">
+                <input type="hidden" id="RecaptchaClientSecret-C42D84EE3E358CB04892FD29A9E2EE69" value="6LcEbGQpAAAAAG5JHilJGhS8gS1WHx8YESTR8Arv">
+                <input type="hidden" id="RecaptchaV2ClientSecret-C42D84EE3E358CB04892FD29A9E2EE69" value="6Ld3bGQpAAAAAKyCAg40XRmP87A6XNT7CW4rQq7F">
+                <div id="RecaptchaRenderLocation-C42D84EE3E358CB04892FD29A9E2EE69" class="grecaptcha-v2-box"></div>
+            </div>
+            <script nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur">
+              var recaptchaClientUrl = "https://www.google.com/recaptcha/api.js?render=";
+            </script>
+        <span class="Warning field-validation-valid" data-valmsg-for="RecaptchaToken" data-valmsg-replace="true"></span>
+    </div>
+</form>    <p>
+        Already got an account?
+        <a href="https://portswigger.net/users">Login here</a>
+    </p>
+    <script src="/bundles/widgets/register.js?v=Fz-E4G6wbUww_vPwGiCr9Up59Lg" nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur"></script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    </div>
+
+
+    <script src="/bundles/public/staticcms.js?v=oG9Ug0Pbax8A4sXqKpnUlXQyZts" nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur"></script>
+    <script src="/bundles/public/websecacademy.js?v=FQ-3J04XfVlGnEQyyAMRNVx8Ngw" nonce="6jNkTUJ7ZXskBINubuNV0hbs2BpN0mur"></script>
+
+                    
+        <div class="sidebar-content">
+            
+            <div class="sidebar-trial-advert">
+                <img alt="Try Burp Suite for Free" src="/content/images/logos/burp-suite-icon.svg">
+                <h4>Find access control vulnerabilities using Burp Suite</h4>
+                <a class="button-white" href="https://portswigger.net/burp">Try for free</a>
+            </div>
+        </div>
+    
+                </main>
+            </div>
+        </div>
+        
+    <footer class="wrapper">
+        <div class="container">
+            <div>
+                <p>Burp Suite</p>
+                <a href="/burp/vulnerability-scanner">Web vulnerability scanner</a>
+                <a href="/burp">Burp Suite Editions</a>
+                <a href="/burp/releases">Release Notes</a>
+            </div>
+            <div>
+                <p>Vulnerabilities</p>
+                <a href="/web-security/cross-site-scripting">Cross-site scripting (XSS)</a>
+                <a href="/web-security/sql-injection">SQL injection</a>
+                <a href="/web-security/csrf">Cross-site request forgery</a>
+                <a href="/web-security/xxe">XML external entity injection</a>
+                <a href="/web-security/file-path-traversal">Directory traversal</a>
+                <a href="/web-security/ssrf">Server-side request forgery</a>
+            </div>
+            <div>
+                <p>Customers</p>
+                <a href="/organizations">Organizations</a>
+                <a href="/testers">Testers</a>
+                <a href="/developers">Developers</a>
+            </div>
+            <div>
+                <p>Company</p>
+                <a href="/about">About</a>
+                <a href="/careers">Careers</a>
+                <a href="/about/contact">Contact</a>
+                <a href="/legal">Legal</a>
+                <a href="/privacy">Privacy Notice</a>
+            </div>
+            <div>
+                <p>Insights</p>
+                <a href="/web-security">Web Security Academy</a>
+                <a href="/blog">Blog</a>
+                <a href="/research">Research</a>
+            </div>
+            <div>
+                <a href="/"><img src="/content/images/logos/portswigger-logo.svg" alt="PortSwigger Logo" class="footer-logo"></a>
+                <a class="button-outline-blue-small camelcase" href="https://twitter.com/Burp_Suite" rel="noreferrer"><span class="icon-twitter"></span>  Follow us</a>
+                <p class="grey">&copy; 2024 PortSwigger Ltd.</p>
+            </div>
+        </div>
+    </footer>
+    <a href="#top" class="back-to-top"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><polygon points="4.07 14.7 5.03 15.78 12.48 9.13 19.94 15.78 20.9 14.7 12.48 7.2 4.07 14.7" fill="#f63" /><path d="M13,0A13,13,0,1,0,26,13,13,13,0,0,0,13,0Zm0,24.56A11.56,11.56,0,1,1,24.56,13,11.58,11.58,0,0,1,13,24.56Z" fill="#f63" /></svg></a>
+
+    </body>
+</html>
